@@ -17,15 +17,15 @@ int main()
         while (window.pollEvent(event))
         {
             // Close window : exit
-            if (event.type == sf::Event::Closed)
+            if(event.type == sf::Event::Closed)
             {
                 window.close();
             }
         }
         window.clear();
-        if(Versus.end == 0 && menu.choix != 2)      //Affichage dujeu
+        if(Versus.end == 0 && menu.choix != 2 )      //Affichage dujeu
         {
-            menu.update(window);
+            menu.update(window, event);
             menu.draw(window);
         }
         if(Versus.end == 0 && menu.choix == 2)      //Affichage du versus
