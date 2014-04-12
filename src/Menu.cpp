@@ -1,7 +1,7 @@
 #include "Menu.h"
 
 
-void Menu::update(sf::RenderWindow &window)
+void Menu::update(sf::RenderWindow &window, sf::Event &event)
 {
     if(choix == 0) // Menu principal
     {
@@ -65,16 +65,13 @@ void Menu::update(sf::RenderWindow &window)
             m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres.png");
         }
     }
-    if(m_sensibilite == 1)
+    if(m_sensibilite != 0)
     {
-        if(sf::Mouse::getPosition(window).x >= 338 && sf::Mouse::getPosition(window).x <= 456 && sf::Mouse::getPosition(window).y >= 240 && sf::Mouse::getPosition(window).y <= 305 &&  //Texfield fired
+        textfield.update(window, event);
+        if(sf::Mouse::getPosition(window).x >= 285 && sf::Mouse::getPosition(window).x <= 410 && sf::Mouse::getPosition(window).y >= 367 && sf::Mouse::getPosition(window).y <= 416 &&
             sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            m_textureParametre.loadFromFile("ressource/Menu/Parametre/Sensi fired.png");
-        }
-        else if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {
-            m_textureParametre.loadFromFile("ressource/Menu/Parametre/Sensi.png");
+            m_sensibilite = 0;
         }
     }
 }
@@ -84,7 +81,6 @@ void Menu::draw(sf::RenderWindow &window)
     {
         window.draw(m_spriteMenu);
     }
-    window.draw(m_spriteFenetre);
     if (choix == 1)
     {
         m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu.png");
@@ -98,9 +94,9 @@ void Menu::draw(sf::RenderWindow &window)
         m_spriteFenetre.setTexture(m_textureFenetre);
         window.draw(m_spriteFenetre);
     }
-    if(m_sensibilite == 1)
+    if(m_sensibilite != 0)
     {
-        window.draw(m_spriteParametre);
+       textfield.draw(window);
     }
 }
 /*void Menu::option(int joueur)
@@ -123,6 +119,7 @@ Menu::Menu()
     m_spriteFenetre.setTexture(m_textureMenu);
     m_textureParametre.loadFromFile("ressource/Menu/Parametre/Sensi.png");
     m_spriteParametre.setTexture(m_textureParametre);
+
 }
 Menu::~Menu()
 {
