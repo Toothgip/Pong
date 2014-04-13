@@ -74,6 +74,7 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
             m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres.png");
         }
     }
+
     if(choix == 3 && m_sensibilite != 0)
     {
         textfield.update(window, event);
@@ -90,6 +91,7 @@ void Menu::draw(sf::RenderWindow &window)
     {
         window.draw(m_spriteMenu);
     }
+
     if (choix == 1)     //Solo
     {
         m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu.png");
