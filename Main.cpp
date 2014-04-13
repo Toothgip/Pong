@@ -7,7 +7,7 @@ int main()
 {
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(WINDOW_X, WINDOW_Y), "Pong");
-    Versus Versus;
+    //Versus Versus;
     Menu menu;
 
     while (window.isOpen())
@@ -23,34 +23,12 @@ int main()
             }
         }
         window.clear();
-        if(Versus.end == 0 && menu.choix != 2 )      //Affichage dujeu
-        {
-            menu.update(window, event);
-            menu.draw(window);
-        }
-        if(Versus.end == 0 && menu.choix == 2)      //Affichage du versus
-        {
-            window.clear();
-            Versus.update(event);
-            Versus.draw(window);
-        }
-        if(Versus.end == 2 && menu.choix == 2)
-        {
-            window.draw(Versus.m_spriteReplay);
-            Versus.replay(Versus.rejouer, window);
-        }
+        menu.update(window, event);
+        menu.draw(window);
+
         window.display();
 
-        if(Versus.wait)
-        {
-            sf::sleep(sf::milliseconds(500));
-            Versus.wait = 0;
-        }
-        sf::sleep(sf::milliseconds(3));
-        if(Versus.m_quit == 1)
-        {
-            window.close();
-        }
+        sf::sleep(sf::milliseconds(3)); // Pour ralentir la boucle pour la balle et les rectangles
     }
     return EXIT_SUCCESS;
 }

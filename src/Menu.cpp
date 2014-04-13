@@ -1,6 +1,5 @@
 #include "Menu.h"
 
-
 void Menu::update(sf::RenderWindow &window, sf::Event &event)
 {
     if(choix == 0) // Menu principal
@@ -46,6 +45,16 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
             m_textureFenetre.loadFromFile("ressource/Menu/Solo/Menu.png");
         }
     }
+    if (choix == 2 && versus.end == 0) //Versus update
+    {
+        versus.update(event);
+    }
+    if(versus.wait == 1)    // Attente après un but
+    {
+        sf::sleep(sf::milliseconds(500));
+        versus.wait = 0;
+    }
+
     if(choix == 3 && m_sensibilite == 0) // Parametre
     {
         if(sf::Mouse::getPosition(window).x >= 90 && sf::Mouse::getPosition(window).x <= 711 && sf::Mouse::getPosition(window).y >= 125 && sf::Mouse::getPosition(window).y <= 175 &&
@@ -65,7 +74,7 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
             m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres.png");
         }
     }
-    if(m_sensibilite != 0)
+    if(choix == 3 && m_sensibilite != 0)
     {
         textfield.update(window, event);
         if(sf::Mouse::getPosition(window).x >= 285 && sf::Mouse::getPosition(window).x <= 410 && sf::Mouse::getPosition(window).y >= 367 && sf::Mouse::getPosition(window).y <= 416 &&
@@ -77,17 +86,27 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
 }
 void Menu::draw(sf::RenderWindow &window)
 {
-    if(choix == 0)
+    if(choix == 0)      //Menu
     {
         window.draw(m_spriteMenu);
     }
-    if (choix == 1)
+    if (choix == 1)     //Solo
     {
         m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu.png");
         window.draw(m_spriteMenu);
         window.draw(m_spriteFenetre);
     }
 
+    if (choix == 2 )  //Versus mode
+    {
+        window.clear();
+        versus.draw(window);
+    }
+    if(versus.end == 2 && choix == 2)  //Versus mode finish
+    {
+        window.draw(versus.m_spriteReplay);
+        versus.replay(versus.rejouer, window);
+    }
     if(choix == 3 && m_sensibilite == 0)
     {
         m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres.png");

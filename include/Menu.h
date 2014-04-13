@@ -2,6 +2,7 @@
 #define MENU_H
 #include "..\main.h"
 #include "Textfield.h"
+#include "Versus.h"
 
 class Menu
 {
@@ -13,6 +14,7 @@ class Menu
         virtual ~Menu();
         int choix = 0, m_sensibilite = 0;
         Textfield textfield;
+        Versus versus;
     protected:
     private:
         sf::Texture m_textureMenu, m_textureFenetre, m_textureEvent, m_textureParametre;

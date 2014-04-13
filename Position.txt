@@ -12,3 +12,4 @@ bouton Ia        x 367 y 291     largeur 59   hauteur 48
 Sensi 1 x 90 y125		largeur 621  hauteur 50
 Sensi 2 x 90 y226		largeur 629  hauteur 50
 Textefield x 338 y 240          largeur 128  hauteur 65
+Valider x 285 y367		largeur 225  hauteur 49
