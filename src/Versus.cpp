@@ -16,11 +16,14 @@ void Versus::initScore (sf::Texture &texture)
 }
 void Versus::moveRectangle(sf::RectangleShape &rectangle, int direction)
 {
+    std::istringstream iss(sensiRec);           //Conversion de la sensibilitée entrer
+    iss >> sensi;                               //Stockage dans une classe
+
     if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
-        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - 3);
+        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - sensi);
 
     if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
-        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + 3);
+        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + sensi);
 }
 void Versus::update(sf::Event &event)
 {
@@ -240,7 +243,7 @@ Versus::Versus()
     m_goalPlayer1 = 0, m_goalPlayer2 = 0;
     m_speed = 0.5;
     m_x = m_speed, m_y = m_speed;
-
+    sensiRec = 3;
 }
 Versus::~Versus()
 {

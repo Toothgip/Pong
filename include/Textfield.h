@@ -18,9 +18,9 @@ class Textfield
     char m_caractereEntrer = 0;
     sf::Texture m_texture, m_textureFocus;
     sf::Sprite m_sprite;
-    sf::Text m_text;
     sf::Font font;
     int i, m_focus;
+    sf::Text m_text;
 };
 
 #endif // TEXTFIELD_H

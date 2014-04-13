@@ -23,7 +23,6 @@ int main()
             }
         }
         window.clear();
-
         menu.update(window, event);
         menu.draw(window);
 

@@ -73,14 +73,16 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
         {
             m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres.png");
         }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            choix = 0;
     }
-
-    if(choix == 3 && m_sensibilite != 0)
+    if(choix == 3 && m_sensibilite != 0) //Sensibilité des curseurs
     {
         textfield.update(window, event);
-        if(sf::Mouse::getPosition(window).x >= 285 && sf::Mouse::getPosition(window).x <= 410 && sf::Mouse::getPosition(window).y >= 367 && sf::Mouse::getPosition(window).y <= 416 &&
+        if(sf::Mouse::getPosition(window).x >= 285 && sf::Mouse::getPosition(window).x <= 410 && sf::Mouse::getPosition(window).y >= 367 && sf::Mouse::getPosition(window).y <= 416 && //Bouton valider
             sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
+            versus.sensiRec = textfield.chaineCaractere;
             m_sensibilite = 0;
         }
     }
@@ -91,7 +93,6 @@ void Menu::draw(sf::RenderWindow &window)
     {
         window.draw(m_spriteMenu);
     }
-
     if (choix == 1)     //Solo
     {
         m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu.png");

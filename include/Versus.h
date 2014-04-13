@@ -20,11 +20,11 @@ class Versus
         sf::Sprite m_spriteReplay, m_spritePlayer1, m_spritePlayer2, m_spriteWin;
         sf::Texture m_texturePlayer1, m_textureNull, m_texturePlayer2, m_textureWin, m_textureReplay;
         bool wait = 0, m_quit = 0;
-        int end = 0, rejouer = 2;
+        int end = 0, rejouer = 2, sensi = 3;
         int m_goalPlayer1, m_goalPlayer2;
+        string sensiRec;
         Versus();
         virtual ~Versus();
-
     protected:
     private:
         sf::RectangleShape m_rectangle1;
