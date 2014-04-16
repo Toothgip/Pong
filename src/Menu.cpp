@@ -28,23 +28,32 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
             m_textureMenu.loadFromFile("ressource/Menu/Menu.png");
         }
     }
-    if (choix == 1)  // Solo
+    if (choix == 1 && play == 0)  // Solo menu
     {
         if(sf::Mouse::getPosition(window).x >= 304 && sf::Mouse::getPosition(window).x <= 505 && sf::Mouse::getPosition(window).y >= 207 && sf::Mouse::getPosition(window).y <= 257 &&
-            sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            sf::Mouse::isButtonPressed(sf::Mouse::Left))  // Survie
         {
             m_textureFenetre.loadFromFile("ressource/Menu/Solo/Menu 1 focus.png");
+            solo.ia = 0;
+            play = 1;
         }
         else if(sf::Mouse::getPosition(window).x >= 367 && sf::Mouse::getPosition(window).x <= 426 && sf::Mouse::getPosition(window).y >= 291 && sf::Mouse::getPosition(window).y <= 339 &&
-            sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            sf::Mouse::isButtonPressed(sf::Mouse::Left)) // IA
         {
             m_textureFenetre.loadFromFile("ressource/Menu/Solo/Menu 2 focus.png");
+            solo.initRectangle(solo.m_rectangle2, sf::Vector2f(RECTANGLE2X, 400));
+            solo.ia = 1;
+            play = 1;
         }
         else
         {
             m_textureFenetre.loadFromFile("ressource/Menu/Solo/Menu.png");
         }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            choix = 0;
     }
+    if(play == 1)
+        solo.update(event, window);
     if (choix == 2 && versus.end == 0) //Versus update
     {
         versus.update(event);
@@ -83,6 +92,7 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
             sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             versus.sensiRec = textfield.chaineCaractere;
+            versus.sensiRec = solo.sensiRec;
             m_sensibilite = 0;
         }
     }
@@ -93,13 +103,16 @@ void Menu::draw(sf::RenderWindow &window)
     {
         window.draw(m_spriteMenu);
     }
-    if (choix == 1)     //Solo
+    if (choix == 1 && play == 0)     //Solo
     {
         m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu.png");
         window.draw(m_spriteMenu);
         window.draw(m_spriteFenetre);
     }
-
+    if (play == 1) // Solo lancé
+    {
+        solo.draw(window);
+    }
     if (choix == 2 )  //Versus mode
     {
         window.clear();
@@ -121,18 +134,6 @@ void Menu::draw(sf::RenderWindow &window)
        textfield.draw(window);
     }
 }
-/*void Menu::option(int joueur)
-{
-    if(joueur == 1)
-    {
-
-    }
-    else if(joueur == 3)
-    {
-
-    }
-
-}*/
 Menu::Menu()
 {
     //ctor

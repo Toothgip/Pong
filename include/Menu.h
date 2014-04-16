@@ -3,6 +3,7 @@
 #include "..\main.h"
 #include "Textfield.h"
 #include "Versus.h"
+#include "Solo.h"
 
 class Menu
 {
@@ -12,9 +13,10 @@ class Menu
 
         Menu();
         virtual ~Menu();
-        int choix = 0, m_sensibilite = 0;
+        int choix = 0, m_sensibilite = 0, play = 0;
         Textfield textfield;
         Versus versus;
+        Solo solo;
     protected:
     private:
         sf::Texture m_textureMenu, m_textureFenetre, m_textureEvent, m_textureParametre;

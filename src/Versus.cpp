@@ -17,7 +17,7 @@ void Versus::initScore (sf::Texture &texture)
 void Versus::moveRectangle(sf::RectangleShape &rectangle, int direction)
 {
     std::istringstream iss(sensiRec);           //Conversion de la sensibilitée entrer
-    iss >> sensi;                               //Stockage dans une classe
+    iss >> sensi;                               //Stockage dans une variable
 
     if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
         rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - sensi);
