@@ -16,9 +16,11 @@ void Versus::initScore (sf::Texture &texture)
 }
 void Versus::moveRectangle(sf::RectangleShape &rectangle, int direction)
 {
-    std::istringstream iss(sensiRec);           //Conversion de la sensibilitée entrer
-    iss >> sensi;                               //Stockage dans une variable
-
+    if(reglageSensi == 1)
+    {
+            std::istringstream iss(sensiRec);           //Conversion de la sensibilitée entrer
+            iss >> sensi;                               //Stockage dans une variable
+    }
     if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
         rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - sensi);
 
@@ -79,14 +81,14 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
         m_speed = 0.5;
         m_x = m_speed;
         m_y = m_speed;
-        goal(circle, 1);
+        goal(1);
     }
     if(circle.getPosition().x <= 0 ) // Rebond sur coté gauche de la fênetre  But pou joueur 2
     {
         m_speed = 0.5;
         m_x = m_speed;
         m_y = m_speed;
-        goal(circle, 2);
+        goal(2);
     }
     if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x && circle.getPosition().y >= rectangle1.getPosition().y &&   // Rebond rectangle 1
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
@@ -108,7 +110,7 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
     }
     circle.setPosition(circle.getPosition().x + m_x, circle.getPosition().y + m_y);
 }
-void Versus::goal(sf::CircleShape &circle, int player)                              // But
+void Versus::goal(int player)                              // But
 {
     if(player == 1)         //But joueur 1
     {
@@ -121,7 +123,7 @@ void Versus::goal(sf::CircleShape &circle, int player)                          
         score(2);
     }
     wait = 1;
-    circle.setPosition(sf::Vector2f(400, 300));
+    m_ball.setPosition(sf::Vector2f(400, 300));
 }
 void Versus::score(int player)
 {
@@ -244,6 +246,7 @@ Versus::Versus()
     m_speed = 0.5;
     m_x = m_speed, m_y = m_speed;
     sensiRec = 3;
+    sensi = 3;
 }
 Versus::~Versus()
 {

@@ -13,7 +13,7 @@ class Menu
 
         Menu();
         virtual ~Menu();
-        int choix = 0, m_sensibilite = 0, play = 0;
+        int choix = 0, m_sensibilite = 0;
         Textfield textfield;
         Versus versus;
         Solo solo;

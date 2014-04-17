@@ -13,7 +13,11 @@ class Solo
         void draw(sf::RenderWindow &window);
         void replay(sf::RenderWindow &window);
         void survie();
-        int ia = 0, sensi = 3, end = 0, debut = 1, afficherScore = 0;
+        void goal(int player);
+        void IA();
+        void score(int player);
+        void win(int player);
+        int ia = 0, sensi = 3, end = 0, debut = 1, afficherScore = 0, play = 0;
         float m_temps = 0;
         sf::RectangleShape m_rectangle2;
         string sensiRec, temps;
@@ -21,13 +25,14 @@ class Solo
         virtual ~Solo();
     protected:
     private:
+        int m_goalPlayer1 = 0, m_goalPlayer2 = 0;
         sf::RectangleShape m_rectangle1;
         sf::CircleShape m_ball;
         float m_x, m_y, m_speed;
         sf::Time m_time;
         sf::Clock m_clock;
-        sf::Texture m_textureReplay;
-        sf::Sprite m_spriteReplay;
+        sf::Texture m_textureReplay, m_textureWin, m_texturePlayer1, m_textureNull, m_texturePlayer2;
+        sf::Sprite m_spriteReplay, m_spritePlayer1, m_spritePlayer2, m_spriteWin;
         sf::String m_string;
         sf::Text m_text, m_textWin;
         sf::Font font;

@@ -21,6 +21,10 @@ void Solo::moveRectangle(sf::RectangleShape &rectangle, int direction)
     if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
         rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + sensi);
 }
+void Solo::IA()
+{
+
+}
 void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &rectangle2)
 {
     if(circle.getPosition().y >= WINDOW_Y - 20)  // Rebond sur bas de la fenetre
@@ -40,7 +44,7 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
         if(ia == 1)                 //Si contre IA BUT du joueur
         {
             m_speed = 0.5;
-            //goal(circle, 1);
+            goal(1);
         }
         if(m_speed <= 0)
         {
@@ -58,12 +62,10 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
         if(ia == 1)                 //Si contre IA BUT de IA
         {
             m_speed = 0.5;
-            //goal(circle, 2);
+            goal(2);
         }
         if(ia == 0)
         {
-        /*    m_y = -1*m_speed;
-            m_x = -1*m_speed;*/
             end = 1;
         }
      /*   else
@@ -91,9 +93,90 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
         {
             m_speed = 1.2*m_speed;
         }
-        m_x = -1 * m_speed;
+        if(m_speed > 0)
+            m_x = -1 * m_speed;
+        else
+            m_x = m_speed;
     }
     circle.setPosition(circle.getPosition().x + m_x, circle.getPosition().y + m_y);
+}
+void Solo::goal(int player)                              // But
+{
+    if(player == 1)         //But joueur 1
+    {
+        m_goalPlayer1 = m_goalPlayer1 +1;
+        score(1);
+    }
+    if (player == 2)        //But joueur 2
+    {
+        m_goalPlayer2 = m_goalPlayer2 +1;
+        score(2);
+    }
+    //wait = 1;
+    m_ball.setPosition(sf::Vector2f(400, 300));
+}
+void Solo::score(int player)
+{
+    if(player == 1)
+    {
+        switch(m_goalPlayer1)
+        {
+        case 1:
+            m_texturePlayer1.loadFromFile("ressource/score/1.png");
+            m_spritePlayer1.setTexture(m_texturePlayer1);
+            break;
+        case 2:
+            m_texturePlayer1.loadFromFile("ressource/score/2.png");
+            m_spritePlayer1.setTexture(m_texturePlayer1);
+            break;
+        case 3:
+            m_texturePlayer1.loadFromFile("ressource/score/3.png");
+            m_spritePlayer1.setTexture(m_texturePlayer1);
+            break;
+        case 4:
+            m_texturePlayer1.loadFromFile("ressource/score/4.png");
+            m_spritePlayer1.setTexture(m_texturePlayer1);
+            break;
+        case 5:
+            m_texturePlayer1.loadFromFile("ressource/score/5.png");
+            m_spritePlayer1.setTexture(m_texturePlayer1);
+            break;
+        }
+    }
+    if(player == 2)
+    {
+        switch(m_goalPlayer2)
+        {
+        case 1:
+            m_texturePlayer2.loadFromFile("ressource/score/1.png");
+            m_spritePlayer2.setTexture(m_texturePlayer2);
+            break;
+        case 2:
+            m_texturePlayer2.loadFromFile("ressource/score/2.png");
+            m_spritePlayer2.setTexture(m_texturePlayer2);
+            break;
+        case 3:
+            m_texturePlayer2.loadFromFile("ressource/score/3.png");
+            m_spritePlayer2.setTexture(m_texturePlayer2);
+            break;
+        case 4:
+            m_texturePlayer2.loadFromFile("ressource/score/4.png");
+            m_spritePlayer2.setTexture(m_texturePlayer2);
+            break;
+        case 5:
+            m_texturePlayer2.loadFromFile("ressource/score/5.png");
+            m_spritePlayer2.setTexture(m_texturePlayer2);
+            break;
+        }
+    }
+    if(m_goalPlayer1 == 5)
+    {
+        win(1);
+    }
+    if(m_goalPlayer2 == 5)
+    {
+        win(2);
+    }
 }
 void Solo::survie()
 {
@@ -138,18 +221,21 @@ void Solo::draw(sf::RenderWindow &window)
 {
     if(end == 0)                    // Si partie n'est pas fini
     {
-      /*  window.draw(m_spritePlayer1);
-        window.draw(m_spritePlayer2);*/
+
         if(ia == 0)
             window.draw(m_text);
         window.draw(m_rectangle1);
         if (ia == 1)
+        {
+            window.draw(m_spritePlayer1);
+            window.draw(m_spritePlayer2);
             window.draw(m_rectangle2);
+        }
         window.draw(m_ball);
     }
     if (end == 1)                   // Si partie est fini
     {
-        if(afficherScore == 0)
+        if(afficherScore == 0 && ia == 0)
         {
             m_text.setPosition(540, 300);
             window.draw(m_text);
@@ -159,17 +245,34 @@ void Solo::draw(sf::RenderWindow &window)
             afficherScore = 1;
             m_text.setPosition(300, 70);
         }
+        if(ia == 1)
+            window.draw(m_spriteWin);
         window.draw(m_spriteReplay);
         /*window.display();
         sf::sleep(sf::seconds(0.7));
         end = 2;*/
     }
 }
+void Solo::win(int player)
+{
+    if (player == 1)
+    {
+        m_textureWin.loadFromFile("ressource/Player1.png");
+    }
+    if(player == 2)
+    {
+        m_textureWin.loadFromFile("ressource/Player2.png");
+    }
+    end = 1;
+    m_spriteWin.setTexture(m_textureWin);
+    m_spriteWin.setPosition(100, 300);
+
+}
 void Solo::replay(sf::RenderWindow &window)
 {
 
     if(sf::Mouse::getPosition(window).x >= 192 && sf::Mouse::getPosition(window).x <= 350 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
-    sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    sf::Mouse::isButtonPressed(sf::Mouse::Left)) //Oui
     {
         end = 0;
         debut = 1;
@@ -179,9 +282,15 @@ void Solo::replay(sf::RenderWindow &window)
     }
 
     if(sf::Mouse::getPosition(window).x >= 395 && sf::Mouse::getPosition(window).x <= 554 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
-       sf::Mouse::isButtonPressed(sf::Mouse::Left))
+       sf::Mouse::isButtonPressed(sf::Mouse::Left)) //Non
     {
+        play = 0;
         end = 2;
+        debut = 1;
+        m_speed = -0.5;
+        afficherScore = 0;
+        m_ball.setPosition(400, 300);
+        ia = 0;
     }
 
 }
@@ -200,6 +309,11 @@ Solo::Solo()
     m_textWin.setColor(sf::Color::White);
     m_textWin.setPosition(300, 300);
     m_x = m_y = m_speed = -0.5;
+    m_textureNull.loadFromFile("ressource/score/0.png");
+    m_spritePlayer1.setTexture(m_textureNull);
+    m_spritePlayer1.setPosition(100 ,70);
+    m_spritePlayer2.setPosition(650 ,70);
+    m_spritePlayer2.setTexture(m_textureNull);
 }
 
 Solo::~Solo()

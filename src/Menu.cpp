@@ -12,7 +12,7 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
             m_spriteFenetre.setTexture(m_textureFenetre);
         }
         else if(sf::Mouse::getPosition(window).x >= 265 && sf::Mouse::getPosition(window).x <= 485 && sf::Mouse::getPosition(window).y >= 237 && sf::Mouse::getPosition(window).y <= 286 &&
-           sf::Mouse::isButtonPressed(sf::Mouse::Left))
+           sf::Mouse::isButtonPressed(sf::Mouse::Left)) //Bouton Versus
         {
             choix = 2;
             m_textureMenu.loadFromFile("ressource/Menu/Menu b2 focus.png");
@@ -28,14 +28,14 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
             m_textureMenu.loadFromFile("ressource/Menu/Menu.png");
         }
     }
-    if (choix == 1 && play == 0)  // Solo menu
+    if (choix == 1 && solo.play == 0)  // Solo menu
     {
         if(sf::Mouse::getPosition(window).x >= 304 && sf::Mouse::getPosition(window).x <= 505 && sf::Mouse::getPosition(window).y >= 207 && sf::Mouse::getPosition(window).y <= 257 &&
             sf::Mouse::isButtonPressed(sf::Mouse::Left))  // Survie
         {
             m_textureFenetre.loadFromFile("ressource/Menu/Solo/Menu 1 focus.png");
             solo.ia = 0;
-            play = 1;
+            solo.play = 1;
         }
         else if(sf::Mouse::getPosition(window).x >= 367 && sf::Mouse::getPosition(window).x <= 426 && sf::Mouse::getPosition(window).y >= 291 && sf::Mouse::getPosition(window).y <= 339 &&
             sf::Mouse::isButtonPressed(sf::Mouse::Left)) // IA
@@ -43,7 +43,7 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
             m_textureFenetre.loadFromFile("ressource/Menu/Solo/Menu 2 focus.png");
             solo.initRectangle(solo.m_rectangle2, sf::Vector2f(RECTANGLE2X, 400));
             solo.ia = 1;
-            play = 1;
+            solo.play = 1;
         }
         else
         {
@@ -52,8 +52,9 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             choix = 0;
     }
-    if(play == 1)
+    if(solo.play == 1) //Si solo lancer
         solo.update(event, window);
+
     if (choix == 2 && versus.end == 0) //Versus update
     {
         versus.update(event);
@@ -77,6 +78,7 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
         {
             m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres b2 focus.png");
             m_sensibilite = 1;
+            versus.reglageSensi = 1;
         }
         else
         {
@@ -103,13 +105,13 @@ void Menu::draw(sf::RenderWindow &window)
     {
         window.draw(m_spriteMenu);
     }
-    if (choix == 1 && play == 0)     //Solo
+    if (choix == 1 && solo.play == 0)     //Solo
     {
         m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu.png");
         window.draw(m_spriteMenu);
         window.draw(m_spriteFenetre);
     }
-    if (play == 1) // Solo lancé
+    if (solo.play == 1) // Solo lancé
     {
         solo.draw(window);
     }

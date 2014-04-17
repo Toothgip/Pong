@@ -11,7 +11,7 @@ class Versus
         void moveRectangle(sf::RectangleShape &rectangle, int direction);
         void update(sf::Event &event);
         void draw(sf::RenderWindow &window);
-        void goal(sf::CircleShape &circle, int player);
+        void goal(int player);
         void initScore (sf::Texture &texture);
         void score(int player);
         void win(int player);
@@ -20,7 +20,7 @@ class Versus
         sf::Sprite m_spriteReplay, m_spritePlayer1, m_spritePlayer2, m_spriteWin;
         sf::Texture m_texturePlayer1, m_textureNull, m_texturePlayer2, m_textureWin, m_textureReplay;
         bool wait = 0, m_quit = 0;
-        int end = 0, rejouer = 2, sensi = 3;
+        int end = 0, rejouer = 2, sensi = 3, reglageSensi = 0;
         int m_goalPlayer1, m_goalPlayer2;
         string sensiRec;
         Versus();
