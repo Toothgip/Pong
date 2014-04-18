@@ -54,12 +54,15 @@ void Menu::update(sf::RenderWindow &window, sf::Event &event)
     }
     if(solo.play == 1) //Si solo lancer
         solo.update(event, window);
-
-    if (choix == 2 && versus.end == 0) //Versus update
+    if(solo.wait == 1)                  //Attente apres un but en solo
     {
-        versus.update(event);
+        sf::sleep(sf::milliseconds(500));
+        solo.wait = 0;
     }
-    if(versus.wait == 1)    // Attente après un but
+    if (choix == 2 && versus.end == 0) //Versus update
+        versus.update(event);
+
+    if(versus.wait == 1)    // Attente après un but en versus
     {
         sf::sleep(sf::milliseconds(500));
         versus.wait = 0;

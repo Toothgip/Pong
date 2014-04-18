@@ -17,7 +17,7 @@ class Solo
         void IA();
         void score(int player);
         void win(int player);
-        int ia = 0, sensi = 3, end = 0, debut = 1, afficherScore = 0, play = 0;
+        int ia = 0, sensi = 3, end = 0, debut = 1, afficherScore = 0, play = 0, wait = 0;
         float m_temps = 0;
         sf::RectangleShape m_rectangle2;
         string sensiRec, temps;

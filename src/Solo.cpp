@@ -23,6 +23,12 @@ void Solo::moveRectangle(sf::RectangleShape &rectangle, int direction)
 }
 void Solo::IA()
 {
+    if(m_y < 0 && m_rectangle2.getPosition().y >= 0 && m_rectangle2.getPosition().y >= m_ball.getPosition().y) //Si balle montez
+        moveRectangle(m_rectangle2, 1);              //Rectangle monte
+
+    if(m_y >0 && m_rectangle2.getPosition().y <= WINDOW_Y - 148 && m_rectangle2.getPosition().y <= m_ball.getPosition().y) //Si balle descends
+        moveRectangle(m_rectangle2, 2);                          //Rectangle descend
+
 
 }
 void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &rectangle2)
@@ -112,8 +118,9 @@ void Solo::goal(int player)                              // But
         m_goalPlayer2 = m_goalPlayer2 +1;
         score(2);
     }
-    //wait = 1;
+    wait = 1;
     m_ball.setPosition(sf::Vector2f(400, 300));
+    m_speed = -0.5;
 }
 void Solo::score(int player)
 {
@@ -213,6 +220,8 @@ void Solo::update(sf::Event &event, sf::RenderWindow &window)
             m_time = m_clock.getElapsedTime();
             survie();
         }
+        if(ia == 1)
+            IA();
     }
     if(end == 1)
         replay(window);
