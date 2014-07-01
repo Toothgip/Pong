@@ -1,15 +1,2 @@
-			Menu
-Bouton solo: x 306 y 156 	largeur 142  hauteur 50
-Bouton Versus x 265 y 237	largeur 220  hauteur 49
-Bouton paramètre x 202 y 319     largeur 356  hauteur 50
-			
-			Solo
-bouton survie    x 304 y 207     largeur 201  hauteur 50
-bouton Ia        x 367 y 291     largeur 59   hauteur 48
-
-
-			Parametres
-Sensi 1 x 90 y125		largeur 621  hauteur 50
-Sensi 2 x 90 y226		largeur 629  hauteur 50
-Textefield x 338 y 240          largeur 128  hauteur 65
-Valider x 285 y367		largeur 225  hauteur 49
+Menu Solo   x 290 +54  y 329 +131
+Menu Versus x 192 +53 y 217 +291  
