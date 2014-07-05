@@ -24,22 +24,25 @@ void Versus::moveRectangle(sf::RectangleShape &rectangle, int direction)
 }
 void Versus::update(sf::Event &event)
 {
-	if (sf::Touch::isDown(0) && sf::Touch::getPosition(0).x < 240 && sf::Touch::getPosition(0).y < 400)
-    {
-        moveRectangle(m_rectangle1, 1);     //Deplacement Player 1 vers le haut
-    }
-    else if (sf::Touch::isDown(0) && sf::Touch::getPosition(0).x < 240 && sf::Touch::getPosition(0).y > 400)
-    {
-		moveRectangle(m_rectangle1, 2);     //Deplacement Player 1 vers le bas
-    }
-	if (sf::Touch::isDown(0) && sf::Touch::getPosition(0).x > 240 && sf::Touch::getPosition(0).y < 400)
-    {
-        moveRectangle(m_rectangle2, 1);     //Deplacement Player 2 vers le haut
-    }
-    else if (sf::Touch::isDown(0) && sf::Touch::getPosition(0).x > 240 && sf::Touch::getPosition(0).y >400)
-    {
-		moveRectangle(m_rectangle2, 2);     //Deplacement Player 2 vers le bas
-    }
+	for(int i = 0; i <=1; i ++)
+	{
+		if (sf::Touch::isDown(i) && sf::Touch::getPosition(i).x < 240 && sf::Touch::getPosition(i).y < 400)
+		{
+			moveRectangle(m_rectangle1, 1);     //Deplacement Player 1 vers le haut
+		}
+		else if (sf::Touch::isDown(i) && sf::Touch::getPosition(i).x < 240 && sf::Touch::getPosition(i).y > 400)
+		{
+			moveRectangle(m_rectangle1, 2);     //Deplacement Player 1 vers le bas
+		}
+		else if (sf::Touch::isDown(i) && sf::Touch::getPosition(i).x > 240 && sf::Touch::getPosition(i).y < 400)
+		{
+			moveRectangle(m_rectangle2, 1);     //Deplacement Player 2 vers le haut
+		}
+		else if (sf::Touch::isDown(i) && sf::Touch::getPosition(i).x > 240 && sf::Touch::getPosition(i).y >400)
+		{
+			moveRectangle(m_rectangle2, 2);     //Deplacement Player 2 vers le bas
+		}
+	}
     moveBall(m_ball, m_rectangle1, m_rectangle2); // Deplacement de la balle
 }
 void Versus::draw(sf::RenderWindow &window)
