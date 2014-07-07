@@ -51,14 +51,17 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
         {
 			goal(1);
         }
+		if(m_speed < 9 && ia == 0)
+			m_speed = 1.4*m_speed;
+			
         if(m_speed <= 0)
         {
-            m_y = m_speed;
+            m_y = -1*m_speed;
             m_x = m_speed;
         }
         else
         {
-            m_y = -1*m_speed;
+            m_y = m_speed;
             m_x = -1*m_speed;
         }
     }
@@ -72,20 +75,22 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
         }
         if(ia == 0)
         {
-            end = 1;
+            play = 0;
         }
     }
     if(circle.getPosition().x <= rectangle1.getPosition().x + rectangle1.getSize().x && circle.getPosition().y >= rectangle1.getPosition().y &&   // Rebond rectangle 1
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
       {
-        if(m_speed < 6)
-        {
+        if(m_speed < 6 && ia == 1)
             m_speed = 1.2*m_speed;
-        }
-            if (m_speed <= 0)
-                m_x = -1*m_speed;
-            else
-                m_x = m_speed;
+			
+		if(m_speed < 9 && ia == 0)
+			m_speed = 1.4*m_speed;
+			
+        if (m_speed <= 0)
+			m_x = -1.2*m_speed;
+        else
+            m_x = m_speed;
       }
     if(circle.getPosition().x >= rectangle2.getPosition().x - rectangle2.getSize().x && circle.getPosition().y >= rectangle2.getPosition().y && //Rebond rectangle 2 si IA
        circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y && ia == 1)
@@ -95,7 +100,7 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
             m_speed = 1.2*m_speed;
         }
         if(m_speed > 0)
-            m_x = -1 * m_speed;
+            m_x = -1.2 * m_speed;
         else
             m_x = m_speed;
     }
