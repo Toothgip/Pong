@@ -108,7 +108,7 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
 }
 void Solo::goal(int player)                              // But
 {
-/*    if(player == 1)         //But joueur 1
+    if(player == 1)         //But joueur 1
     {
         m_goalPlayer1 = m_goalPlayer1 +1;
         score(1);
@@ -117,37 +117,37 @@ void Solo::goal(int player)                              // But
     {
         m_goalPlayer2 = m_goalPlayer2 +1;
         score(2);
-    }*/
+    }
     wait = 1;
     m_ball.setPosition(sf::Vector2f(240, 400));
     m_speed = 1;
 	m_x = m_y = m_speed;
 	
 }
-/*void Solo::score(int player)
+void Solo::score(int player)
 {
     if(player == 1)
     {
         switch(m_goalPlayer1)
         {
         case 1:
-            m_texturePlayer1.loadFromFile("ressource/score/1.png");
+            m_texturePlayer1.loadFromFile("Score/1.png");
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 2:
-            m_texturePlayer1.loadFromFile("ressource/score/2.png");
+            m_texturePlayer1.loadFromFile("Score/2.png");
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 3:
-            m_texturePlayer1.loadFromFile("ressource/score/3.png");
+            m_texturePlayer1.loadFromFile("Score/3.png");
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 4:
-            m_texturePlayer1.loadFromFile("ressource/score/4.png");
+            m_texturePlayer1.loadFromFile("Score/4.png");
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 5:
-            m_texturePlayer1.loadFromFile("ressource/score/5.png");
+            m_texturePlayer1.loadFromFile("Score/5.png");
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         }
@@ -157,36 +157,38 @@ void Solo::goal(int player)                              // But
         switch(m_goalPlayer2)
         {
         case 1:
-            m_texturePlayer2.loadFromFile("ressource/score/1.png");
+            m_texturePlayer2.loadFromFile("Score/1.png");
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 2:
-            m_texturePlayer2.loadFromFile("ressource/score/2.png");
+            m_texturePlayer2.loadFromFile("Score/2.png");
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 3:
-            m_texturePlayer2.loadFromFile("ressource/score/3.png");
+            m_texturePlayer2.loadFromFile("Score/3.png");
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 4:
-            m_texturePlayer2.loadFromFile("ressource/score/4.png");
+            m_texturePlayer2.loadFromFile("Score/4.png");
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 5:
-            m_texturePlayer2.loadFromFile("ressource/score/5.png");
+            m_texturePlayer2.loadFromFile("Score/5.png");
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         }
     }
     if(m_goalPlayer1 == 5)
     {
-        win(1);
+        //win(1);
+		end = 1;
     }
     if(m_goalPlayer2 == 5)
     {
-        win(2);
+        //win(2);
+		end = 1;
     }
-}*/
+}
 void Solo::update(sf::Event &event, sf::RenderWindow &window)
 {
     if(end == 0)
@@ -213,8 +215,8 @@ void Solo::draw(sf::RenderWindow &window)
         window.draw(m_rectangle1);
         if (ia == 1)
         {
-            //window.draw(m_spritePlayer1);
-           // window.draw(m_spritePlayer2);
+            window.draw(m_spritePlayer1);
+            window.draw(m_spritePlayer2);
             window.draw(m_rectangle2);
         }
         window.draw(m_ball);
@@ -281,6 +283,13 @@ Solo::Solo()
     this->initCircle(m_ball);
 	m_speed = 1;
     m_x = m_y = m_speed;
+	
+	m_texturePlayer1.loadFromFile("Score/0.png");
+	m_texturePlayer2.loadFromFile("Score/0.png");
+	m_spritePlayer1.setTexture(m_texturePlayer1);
+	m_spritePlayer1.setPosition(70, 42);
+	m_spritePlayer2.setTexture(m_texturePlayer2);
+	m_spritePlayer1.setPosition(320, 42);
 }
 Solo::~Solo()
 {

@@ -3,3 +3,5 @@ Menu Solo   x 290 +54  y 329 +131
 	Bouton IA	x 193 + 50 y 360 +82
 
 Menu Versus x 192 +53 y 217 +291  
+
+Win sprite x 178 +124 y 100 +599

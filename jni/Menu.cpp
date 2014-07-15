@@ -66,11 +66,11 @@ void Menu::draw(sf::RenderWindow &window)
         window.clear(sf::Color::Black);
         versus.draw(window);
     }
-    if(versus.end == 2 && choix == 2)  //Versus mode finish
+  /*  if(versus.end == 2 && choix == 2)  //Versus mode finish
     {
         window.draw(versus.m_spriteReplay);
         //versus.replay(versus.rejouer, window);
-    }
+    }*/
 }
 Menu::Menu()
 {

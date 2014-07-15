@@ -10,10 +10,10 @@ void Versus::initCircle (sf::CircleShape &circle) // Balle
     circle.setRadius(10);
     circle.setPosition(sf::Vector2f(240, 400));
 }
-/*void Versus::initScore (sf::Texture &texture)
+void Versus::initScore (sf::Texture &texture)
 {
-    texture.loadFromFile("ressource/score/0.png"); // Sprite Score a 0
-}*/
+    texture.loadFromFile("Score/0.png"); // Sprite Score a 0
+}
 void Versus::moveRectangle(sf::RectangleShape &rectangle, int direction)
 {
     if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
@@ -49,21 +49,21 @@ void Versus::draw(sf::RenderWindow &window)
 {
     if(end == 0)                    // Si partie n'est pas fini
     {
-        //window.draw(m_spritePlayer1);
-       // window.draw(m_spritePlayer2);
+        window.draw(m_spritePlayer1);
+        window.draw(m_spritePlayer2);
         window.draw(m_rectangle1);
         window.draw(m_rectangle2);
         window.draw(m_ball);
     }
-    /*if (end == 1)                   // Si partie est fini
+    if (end == 1)                   // Si partie est fini
     {
         window.draw(m_spriteWin);
         window.display();
         sf::sleep(sf::seconds(0.7));
-        m_textureReplay.loadFromFile("ressource/Replay.png");
+        /*m_textureReplay.loadFromFile("ressource/Replay.png");
         m_spriteReplay.setTexture(m_textureReplay);
-        end = 2;
-    }*/
+        end = 2;*/
+    }
 }
 void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &rectangle2)
 {
@@ -127,7 +127,7 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
 }
 void Versus::goal(int player)                              // But
 {
-/*    if(player == 1)         //But joueur 1
+    if(player == 1)         //But joueur 1
     {
         m_goalPlayer1 = m_goalPlayer1 +1;
         score(1);
@@ -136,36 +136,36 @@ void Versus::goal(int player)                              // But
     {
         m_goalPlayer2 = m_goalPlayer2 +1;
         score(2);
-    }*/
+    }
     wait = 1;
     m_ball.setPosition(sf::Vector2f(240, 400));
-	   m_speed = 1;
+	m_speed = 1;
 	m_x = m_y = m_speed;
 }
-/*void Versus::score(int player)
+void Versus::score(int player)
 {
     if(player == 1)
     {
         switch(m_goalPlayer1)
         {
         case 1:
-            m_texturePlayer1.loadFromFile("ressource/score/1.png");
+            m_texturePlayer1.loadFromFile("Score/1.png");
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 2:
-            m_texturePlayer1.loadFromFile("ressource/score/2.png");
+            m_texturePlayer1.loadFromFile("Score/2.png");
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 3:
-            m_texturePlayer1.loadFromFile("ressource/score/3.png");
+            m_texturePlayer1.loadFromFile("Score/3.png");
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 4:
-            m_texturePlayer1.loadFromFile("ressource/score/4.png");
+            m_texturePlayer1.loadFromFile("Score/4.png");
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 5:
-            m_texturePlayer1.loadFromFile("ressource/score/5.png");
+            m_texturePlayer1.loadFromFile("Score/5.png");
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         }
@@ -175,23 +175,23 @@ void Versus::goal(int player)                              // But
         switch(m_goalPlayer2)
         {
         case 1:
-            m_texturePlayer2.loadFromFile("ressource/score/1.png");
+            m_texturePlayer2.loadFromFile("Score/1.png");
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 2:
-            m_texturePlayer2.loadFromFile("ressource/score/2.png");
+            m_texturePlayer2.loadFromFile("Score/2.png");
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 3:
-            m_texturePlayer2.loadFromFile("ressource/score/3.png");
+            m_texturePlayer2.loadFromFile("Score/3.png");
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 4:
-            m_texturePlayer2.loadFromFile("ressource/score/4.png");
+            m_texturePlayer2.loadFromFile("Score/4.png");
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 5:
-            m_texturePlayer2.loadFromFile("ressource/score/5.png");
+            m_texturePlayer2.loadFromFile("Score/5.png");
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         }
@@ -209,18 +209,18 @@ void Versus::win(int player)
 {
     if (player == 1)
     {
-        m_textureWin.loadFromFile("ressource/Player1.png");
+        m_textureWin.loadFromFile("Player1.png");
     }
     if(player == 2)
     {
-        m_textureWin.loadFromFile("ressource/Player2.png");
+        m_textureWin.loadFromFile("Player2.png");
     }
     end = 1;
     m_spriteWin.setTexture(m_textureWin);
-    m_spriteWin.setPosition(100, 300);
+    m_spriteWin.setPosition(178, 100);
 
 }
-void Versus::replay(int rejouer, sf::RenderWindow &window)
+/*void Versus::replay(int rejouer, sf::RenderWindow &window)
 {                                       // Gestion des X                            Gestion des Y              BOUTON OUI
     if(sf::Mouse::getPosition(window).x >= 192 && sf::Mouse::getPosition(window).x <= 350 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
        sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -252,14 +252,14 @@ Versus::Versus()
     this->initRectangle(m_rectangle1, sf::Vector2f(RECTANGLE1X, 400));
     this->initRectangle(m_rectangle2, sf::Vector2f(RECTANGLE2X, 400));
     this->initCircle(m_ball);
-    /*this->initScore(m_textureNull);
+    this->initScore(m_textureNull);
 
     m_spritePlayer1.setTexture(m_textureNull);
-    m_spritePlayer1.setPosition(100 ,70);
-    m_spritePlayer2.setPosition(650 ,70);
+    m_spritePlayer1.setPosition(70, 42);
+    m_spritePlayer2.setPosition(320, 42);
     m_spritePlayer2.setTexture(m_textureNull);
 
-    m_goalPlayer1 = 0, m_goalPlayer2 = 0;*/
+    m_goalPlayer1 = 0, m_goalPlayer2 = 0;
 	wait = 0, m_quit = 0;
 	end = 0, rejouer = 2, sensi = 3, reglageSensi = 0;
     m_speed = 1;
