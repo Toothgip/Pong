@@ -1,4 +1,4 @@
-#include "Textfield.h"
+#include "../include/Textfield.h"
 
 void Textfield::recordingCharacter(sf::Event &event, int choixCaractere)
 {

@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <stdlib.h>
 #include <stdio.h>
-#include <SFML/UI.hpp>
 #include <sstream>
 #include <string>
 using namespace std;

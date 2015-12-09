@@ -1,4 +1,4 @@
-#include "Solo.h"
+#include "../include/Solo.h"
 
 void Solo::initRectangle(sf::RectangleShape &rectangle, sf::Vector2f position)
 {
