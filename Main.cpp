@@ -1,6 +1,5 @@
 #include "main.h"
-#include "include\Versus.h"
-#include "include\Menu.h"
+#include "include\Game.h"
 
 
 int main()
@@ -8,7 +7,9 @@ int main()
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(WINDOW_X, WINDOW_Y), "Pong");
     //Versus Versus;
-    Menu menu;
+    //Menu menu;
+
+    Game game;
 
     while (window.isOpen())
     {
@@ -23,8 +24,8 @@ int main()
             }
         }
         window.clear();
-        menu.update(window, event);
-        menu.draw(window);
+        game.update(window, event);
+        game.draw(window);
 
         window.display();
 

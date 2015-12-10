@@ -5,6 +5,9 @@
 class Solo
 {
     public:
+        //Method
+        Solo(); //Constructor
+
         void initRectangle(sf::RectangleShape &rectangle, sf::Vector2f position);
         void initCircle (sf::CircleShape &circle);
         void moveRectangle(sf::RectangleShape &rectangle, int direction);
@@ -17,14 +20,18 @@ class Solo
         void IA();
         void score(int player);
         void win(int player);
+
+        virtual ~Solo(); //Destructor
+
+        //Variable
         int ia = 0, sensi = 3, end = 0, debut = 1, afficherScore = 0, play = 0, wait = 0;
         float m_temps = 0;
         sf::RectangleShape m_rectangle2;
         string sensiRec, temps;
-        Solo();
-        virtual ~Solo();
+
     protected:
     private:
+
         int m_goalPlayer1 = 0, m_goalPlayer2 = 0;
         sf::RectangleShape m_rectangle1;
         sf::CircleShape m_ball;

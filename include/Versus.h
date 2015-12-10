@@ -5,6 +5,9 @@
 class Versus
 {
     public:
+        //Method
+        Versus(); //Constructor
+
         void initRectangle(sf::RectangleShape &rectangle, sf::Vector2f position);
         void initCircle (sf::CircleShape &circle);
         void moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &rectangle2);
@@ -23,10 +26,12 @@ class Versus
         int end = 0, rejouer = 2, sensi = 3, reglageSensi = 0;
         int m_goalPlayer1, m_goalPlayer2;
         string sensiRec;
-        Versus();
-        virtual ~Versus();
+
+        virtual ~Versus(); //Destructor
+
     protected:
     private:
+
         sf::RectangleShape m_rectangle1;
         sf::RectangleShape m_rectangle2;
         sf::CircleShape m_ball;

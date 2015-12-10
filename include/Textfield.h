@@ -5,16 +5,21 @@
 class Textfield
 {
     public:
-        Textfield();
-        virtual ~Textfield();
+        //Method
+        Textfield(); //Constructor
+
         void recordingCharacter(sf::Event &event, int choixCaractere);
         void draw(sf::RenderWindow &window);
         sf::String chaineCaractere;
         void focus(sf::RenderWindow &window);
         void update(sf::RenderWindow &window, sf::Event &event);
         int record;
+
+        virtual ~Textfield(); //Destructor
+
     protected:
     private:
+
     char m_caractereEntrer = 0;
     sf::Texture m_texture, m_textureFocus;
     sf::Sprite m_sprite;

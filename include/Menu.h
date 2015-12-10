@@ -8,17 +8,22 @@
 class Menu
 {
     public:
-        void draw(sf::RenderWindow &window);
-        void update(sf::RenderWindow &window, sf::Event &event);
+        //Method
+        Menu();  //Constructor
 
-        Menu();
-        virtual ~Menu();
-        int choix = 0, m_sensibilite = 0;
+        void draw(sf::RenderWindow &window);
+        int update(sf::RenderWindow &window, sf::Event &event);
+
+        virtual ~Menu(); //Destructor
+
         Textfield textfield;
         Versus versus;
         Solo solo;
+
     protected:
     private:
+
+        int choix = 0, m_sensibilite = 0;
         sf::Texture m_textureMenu, m_textureFenetre, m_textureEvent, m_textureParametre;
         sf::Sprite m_spriteMenu, m_spriteFenetre, m_spriteEvent, m_spriteParametre;
 

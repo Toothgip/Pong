@@ -23,7 +23,8 @@ void Textfield::recordingCharacter(sf::Event &event, int choixCaractere)
 }
 void Textfield::focus(sf::RenderWindow &window)
 {
-    if(sf::Mouse::getPosition(window).x >= 338 && sf::Mouse::getPosition(window).x <= 456 && sf::Mouse::getPosition(window).y >= 240 && sf::Mouse::getPosition(window).y <= 305 &&  //Texfield fired
+    if(sf::Mouse::getPosition(window).x >= 338 && sf::Mouse::getPosition(window).x <= 456 &&
+       sf::Mouse::getPosition(window).y >= 240 && sf::Mouse::getPosition(window).y <= 305 &&  //Texfield fired
         sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             m_sprite.setTexture(m_textureFocus);

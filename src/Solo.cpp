@@ -74,11 +74,6 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
         {
             end = 1;
         }
-     /*   else
-        {
-            m_y = -1*m_speed;
-            m_x = -1*m_speed;
-        }*/
     }
     if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x && circle.getPosition().y >= rectangle1.getPosition().y &&   // Rebond rectangle 1
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
@@ -257,9 +252,6 @@ void Solo::draw(sf::RenderWindow &window)
         if(ia == 1)
             window.draw(m_spriteWin);
         window.draw(m_spriteReplay);
-        /*window.display();
-        sf::sleep(sf::seconds(0.7));
-        end = 2;*/
     }
 }
 void Solo::win(int player)
@@ -308,8 +300,10 @@ Solo::Solo()
     //ctor
     this->initRectangle(m_rectangle1, sf::Vector2f(RECTANGLE1X, 50));
     this->initCircle(m_ball);
-    m_textureReplay.loadFromFile("ressource/Replay.png");
+
+    m_textureReplay.loadFromFile("ressource/Replay.png"); //Chargement de l'image replay
     m_spriteReplay.setTexture(m_textureReplay);
+
     font.loadFromFile("arial.ttf");
     m_text.setFont(font);
     m_text.setColor(sf::Color::White);
