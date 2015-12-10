@@ -62,11 +62,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
     }
     /* if(solo.play == 1) //Si solo lancer
         solo.update(event, window);
-    if(solo.wait == 1)                  //Attente apres un but en solo
-    {
-        sf::sleep(sf::milliseconds(500));
-        solo.wait = 0;
-    }
+
     if (choix == 2 && versus.end == 0) //Versus update
         versus.update(event);
 
@@ -118,7 +114,7 @@ void Menu::draw(sf::RenderWindow &window)
 {
     if(choix == 0)      //Menu
     {
-        window.draw(m_spriteMenu);
+        window.draw(m_spriteMenu);  //Affichage du menu
     }
     if (choix == 1 && solo.play == 0)     //Solo
     {

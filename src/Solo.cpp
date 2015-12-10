@@ -113,7 +113,7 @@ void Solo::goal(int player)                              // But
         m_goalPlayer2 = m_goalPlayer2 +1;
         score(2);
     }
-    wait = 1;
+    waitGoal = true;
     m_ball.setPosition(sf::Vector2f(400, 300));
     m_speed = -0.5;
 }
@@ -218,8 +218,13 @@ void Solo::update(sf::Event &event, sf::RenderWindow &window)
         if(ia == 1)
             IA();
     }
-    if(end == 1)
+    if(end == 1)        // If the  game is finished asked if player want to replay
         replay(window);
+
+    if(end == 2)        //If the player don't want to replay
+        return true;
+
+    return false;
 }
 void Solo::draw(sf::RenderWindow &window)
 {
@@ -276,10 +281,6 @@ void Solo::replay(sf::RenderWindow &window)
     sf::Mouse::isButtonPressed(sf::Mouse::Left)) //Oui
     {
         end = 0;
-        debut = 1;
-        m_speed = -0.5;
-        afficherScore = 0;
-        m_ball.setPosition(400, 300);
     }
 
     if(sf::Mouse::getPosition(window).x >= 395 && sf::Mouse::getPosition(window).x <= 554 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
@@ -287,19 +288,24 @@ void Solo::replay(sf::RenderWindow &window)
     {
         play = 0;
         end = 2;
-        debut = 1;
+        ia = 0;
+    }
         m_speed = -0.5;
         afficherScore = 0;
         m_ball.setPosition(400, 300);
-        ia = 0;
-    }
+        debut = 1;
 
 }
-Solo::Solo()
+Solo::Solo(bool pIa)
 {
     //ctor
     this->initRectangle(m_rectangle1, sf::Vector2f(RECTANGLE1X, 50));
     this->initCircle(m_ball);
+
+    //initialisation varaible
+    ia = pIa
+    waitGoal = false;
+    sensi = 3;
 
     m_textureReplay.loadFromFile("ressource/Replay.png"); //Chargement de l'image replay
     m_spriteReplay.setTexture(m_textureReplay);

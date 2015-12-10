@@ -24,7 +24,8 @@ class Solo
         virtual ~Solo(); //Destructor
 
         //Variable
-        int ia = 0, sensi = 3, end = 0, debut = 1, afficherScore = 0, play = 0, wait = 0;
+        int sensi, end = 0, debut = 1, afficherScore = 0;
+        bool waitGoal;
         float m_temps = 0;
         sf::RectangleShape m_rectangle2;
         string sensiRec, temps;
@@ -32,6 +33,7 @@ class Solo
     protected:
     private:
 
+        bool ia;
         int m_goalPlayer1 = 0, m_goalPlayer2 = 0;
         sf::RectangleShape m_rectangle1;
         sf::CircleShape m_ball;
@@ -43,6 +45,7 @@ class Solo
         sf::String m_string;
         sf::Text m_text, m_textWin;
         sf::Font font;
+
 };
 
 #endif // SOLO_H

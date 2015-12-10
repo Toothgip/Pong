@@ -18,6 +18,15 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
         case 1:             //Solo survie
         {
             m_solo.update(event, window);
+
+            if(m_solo.waitGoal) //Si il y a un but
+            {
+                sf::sleep(sf::milliseconds(500)); //Temporisation de 500 ms
+                m_solo.waitGoal = false;
+            }
+
+            if(m_solo.end == 2) //Return to the main menu
+                step = 0;
             break;
         }
     }
