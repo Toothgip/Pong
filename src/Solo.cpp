@@ -30,7 +30,8 @@ void Solo::IA()
     if(m_y < 0 && m_rectangle2.getPosition().y >= 0 && m_rectangle2.getPosition().y >= m_ball.getPosition().y) //Si balle montez
         moveRectangle(m_rectangle2, 1);              //Rectangle monte
 
-    if(m_y >0 && m_rectangle2.getPosition().y <= WINDOW_Y - 148 && m_rectangle2.getPosition().y <= m_ball.getPosition().y) //Si balle descends
+    if(m_y >0 && m_rectangle2.getPosition().y <= WINDOW_Y - 148 &&
+       m_rectangle2.getPosition().y <= m_ball.getPosition().y) //Si balle descends
         moveRectangle(m_rectangle2, 2);                          //Rectangle descend
 
 
@@ -79,7 +80,8 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
             end = 1;
         }
     }
-    if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x && circle.getPosition().y >= rectangle1.getPosition().y &&   // Rebond rectangle 1
+    if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x &&
+       circle.getPosition().y >= rectangle1.getPosition().y &&   // Rebond rectangle 1
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
       {
         if(m_speed < 3)
@@ -91,7 +93,8 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
             else
                 m_x = m_speed;
       }
-    if(circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x && circle.getPosition().y >= rectangle2.getPosition().y && //Rebond rectangle 2 si IA
+    if(circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x &&
+       circle.getPosition().y >= rectangle2.getPosition().y && //Rebond rectangle 2 si IA
        circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y && ia == 1)
     {
         if(m_speed < 4)
@@ -190,11 +193,13 @@ void Solo::survie()
     std::ostringstream stream;
     stream.precision(2);
 
+    m_time = m_clock.getElapsedTime();  //Get the time  to the timer
+
     stream << m_time.asSeconds();   //Store of the temps in a flux
     std::string str = stream.str(); //Conversion float to char
     temps = str;                    //Store the char in a string
 
-    m_text.setString(temps);    //Set the time in a string
+    m_textTime.setString(temps);    //Set the time in a string
 
     m_textWin.setString("Ton score est de"); //Text when the game is finshed
 
@@ -212,14 +217,9 @@ bool Solo::update(sf::Event &event, sf::RenderWindow &window)
             moveRectangle(m_rectangle1, 2);     //Move  Player 1 rectangle's to the bot
         }
         moveBall(m_ball, m_rectangle1, m_rectangle2); // Move of the ball
-        if(debut == 1 && ia == false) //if no IA intialising of clock
-        {
-           m_clock.restart();       //TODO:Deplacer dans constructeur
-           debut = 0;
-        }
+
         if(ia == false)            //IF no IA get the time
         {
-            m_time = m_clock.getElapsedTime(); //TODO mettre dans survie
             survie();
         }
         if(ia == true)
@@ -241,7 +241,7 @@ void Solo::draw(sf::RenderWindow &window)
         window.draw(m_ball);
 
         if(ia == false)            //If survival mod
-            window.draw(m_text);
+            window.draw(m_textTime);
 
         if (ia == true)             //If versus mod
         {
@@ -255,16 +255,16 @@ void Solo::draw(sf::RenderWindow &window)
     {
         if(afficherScore == 0 && ia == false)   //Survival mod
         {
-            m_text.setPosition(540, 300);
+            m_textTime.setPosition(540, 300);
 
-            window.draw(m_text);
+            window.draw(m_textTime);
             window.draw(m_textWin);
 
             window.display();
 
             sf::sleep(sf::seconds(1));
             afficherScore = 1;
-            m_text.setPosition(300, 70);
+            m_textTime.setPosition(300, 70);
         }
 
         if(ia == false)                     //IA mod
@@ -285,8 +285,6 @@ void Solo::win(int player)
         m_textureWin.loadFromFile("ressource/Player2.png");
     }
     end = 1;
-    m_spriteWin.setTexture(m_textureWin);
-    m_spriteWin.setPosition(100, 300);      //TODO:Mettre dans le constructeur
 
 }
 void Solo::replay(sf::RenderWindow &window)
@@ -323,19 +321,30 @@ Solo::Solo(bool pIa)
     m_textureReplay.loadFromFile("ressource/Replay.png"); //Chargement de l'image replay
     m_spriteReplay.setTexture(m_textureReplay);
 
-    font.loadFromFile("arial.ttf");
-    m_text.setFont(font);
-    m_text.setColor(sf::Color::White);
-    m_text.setPosition(300, 70);
+    font.loadFromFile("arial.ttf"); //Initilization Font
+
+    m_textTime.setFont(font);
+    m_textTime.setColor(sf::Color::White);          //Initilization of time text in survival
+    m_textTime.setPosition(300, 70);
+
     m_textWin.setFont(font);
     m_textWin.setColor(sf::Color::White);
     m_textWin.setPosition(300, 300);
-    m_x = m_y = m_speed = -0.5;
-    m_textureNull.loadFromFile("ressource/score/0.png");
-    m_spritePlayer1.setTexture(m_textureNull);
+
+    m_x = m_y = m_speed = -0.5;              //Initialization speed
+
+    m_textureNull.loadFromFile("ressource/score/0.png");    //Initialization score to 0
+
+    m_spritePlayer1.setTexture(m_textureNull);              //Set score of player 1
     m_spritePlayer1.setPosition(100 ,70);
-    m_spritePlayer2.setPosition(650 ,70);
+
+    m_spritePlayer2.setPosition(650 ,70);                   //Set score of player 2
     m_spritePlayer2.setTexture(m_textureNull);
+
+    m_spriteWin.setTexture(m_textureWin);       //Set texture for win and position
+    m_spriteWin.setPosition(100, 300);
+
+    m_clock.restart();  //Start timer for solo mod
 }
 
 Solo::~Solo()

@@ -47,7 +47,7 @@ class Solo
         sf::Texture m_textureReplay, m_textureWin, m_texturePlayer1, m_textureNull, m_texturePlayer2;
         sf::Sprite m_spriteReplay, m_spritePlayer1, m_spritePlayer2, m_spriteWin;
         sf::String m_string;
-        sf::Text m_text, m_textWin;
+        sf::Text m_textTime, m_textWin;
         sf::Font font;
 
 };
