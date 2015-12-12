@@ -1,8 +1,9 @@
 #include "Game.h"
 
-Game::Game() //Constructeur
+Game::Game(): m_solo(false) //Constructeur
 {
     m_step = 0;
+    //TO DO:Changer echelle de sensibilité
 }
 
 void Game::update(sf::RenderWindow &window, sf::Event &event)
@@ -13,6 +14,9 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
         case 0:             //Main Menu
         {
             m_step = m_menu.update(window, event);
+
+            //Set sensibility of rectangle
+            m_solo.setSensi(m_menu.getSensiP1());
             break;
         }
         case 1:             //Solo survie
@@ -26,7 +30,7 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
             }
 
             if(m_solo.end == 2) //Return to the main menu
-                step = 0;
+                m_step = 0;
             break;
         }
     }

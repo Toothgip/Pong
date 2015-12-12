@@ -10,16 +10,20 @@ void Solo::initCircle (sf::CircleShape &circle) // Balle
     circle.setRadius(10);
     circle.setPosition(sf::Vector2f(400, 300));
 }
+
+void Solo::setSensi(int pSensi)
+{
+    m_sensi = pSensi;
+}
+
 void Solo::moveRectangle(sf::RectangleShape &rectangle, int direction)
 {
-    std::istringstream iss(sensiRec);           //Conversion de la sensibilitée entrer
-    iss >> sensi;                               //Stockage dans une variable
 
     if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
-        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - sensi);
+        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - m_sensi);
 
     if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
-        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + sensi);
+        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + m_sensi);
 }
 void Solo::IA()
 {
@@ -185,37 +189,40 @@ void Solo::survie()
     ostringstream s;
     std::ostringstream stream;
     stream.precision(2);
-    stream << m_time.asSeconds();
-    std::string str = stream.str();
-    temps = str;
-    m_text.setString(temps);
-    m_textWin.setString("Ton score est de");
+
+    stream << m_time.asSeconds();   //Store of the temps in a flux
+    std::string str = stream.str(); //Conversion float to char
+    temps = str;                    //Store the char in a string
+
+    m_text.setString(temps);    //Set the time in a string
+
+    m_textWin.setString("Ton score est de"); //Text when the game is finshed
 
 }
-void Solo::update(sf::Event &event, sf::RenderWindow &window)
+bool Solo::update(sf::Event &event, sf::RenderWindow &window)
 {
-    if(end == 0)
+    if(end == 0) //If the game is not finish
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
         {
-            moveRectangle(m_rectangle1, 1);     //Deplacement Player 1 vers le haut
+            moveRectangle(m_rectangle1, 1);     //Move  Player 1 rectangle's to the top
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
-            moveRectangle(m_rectangle1, 2);     //Deplacement Player 1 vers le bas
+            moveRectangle(m_rectangle1, 2);     //Move  Player 1 rectangle's to the bot
         }
-        moveBall(m_ball, m_rectangle1, m_rectangle2); // Deplacement de la balle
-        if(debut == 1 && ia == 0)
+        moveBall(m_ball, m_rectangle1, m_rectangle2); // Move of the ball
+        if(debut == 1 && ia == false) //if no IA intialising of clock
         {
-           m_clock.restart();
+           m_clock.restart();       //TODO:Deplacer dans constructeur
            debut = 0;
         }
-        if(ia == 0 && end == 0)
+        if(ia == false)            //IF no IA get the time
         {
-            m_time = m_clock.getElapsedTime();
+            m_time = m_clock.getElapsedTime(); //TODO mettre dans survie
             survie();
         }
-        if(ia == 1)
+        if(ia == true)
             IA();
     }
     if(end == 1)        // If the  game is finished asked if player want to replay
@@ -228,50 +235,58 @@ void Solo::update(sf::Event &event, sf::RenderWindow &window)
 }
 void Solo::draw(sf::RenderWindow &window)
 {
-    if(end == 0)                    // Si partie n'est pas fini
+    if(end == 0)                    // If the game is not finished
     {
-
-        if(ia == 0)
-            window.draw(m_text);
         window.draw(m_rectangle1);
-        if (ia == 1)
+        window.draw(m_ball);
+
+        if(ia == false)            //If survival mod
+            window.draw(m_text);
+
+        if (ia == true)             //If versus mod
         {
             window.draw(m_spritePlayer1);
             window.draw(m_spritePlayer2);
             window.draw(m_rectangle2);
         }
-        window.draw(m_ball);
+
     }
-    if (end == 1)                   // Si partie est fini
+    if (end == 1)                   // If the game is finished
     {
-        if(afficherScore == 0 && ia == 0)
+        if(afficherScore == 0 && ia == false)   //Survival mod
         {
             m_text.setPosition(540, 300);
+
             window.draw(m_text);
             window.draw(m_textWin);
+
             window.display();
-            sf::sleep(sf::seconds(2));
+
+            sf::sleep(sf::seconds(1));
             afficherScore = 1;
             m_text.setPosition(300, 70);
         }
-        if(ia == 1)
+
+        if(ia == false)                     //IA mod
             window.draw(m_spriteWin);
-        window.draw(m_spriteReplay);
+
+
+        window.draw(m_spriteReplay);        //Picture for replay
     }
 }
 void Solo::win(int player)
 {
-    if (player == 1)
+    if (player == 1)        //If player 1 win
     {
         m_textureWin.loadFromFile("ressource/Player1.png");
     }
-    if(player == 2)
+    if(player == 2)         //If player 2 win
     {
         m_textureWin.loadFromFile("ressource/Player2.png");
     }
     end = 1;
     m_spriteWin.setTexture(m_textureWin);
-    m_spriteWin.setPosition(100, 300);
+    m_spriteWin.setPosition(100, 300);      //TODO:Mettre dans le constructeur
 
 }
 void Solo::replay(sf::RenderWindow &window)
@@ -286,12 +301,11 @@ void Solo::replay(sf::RenderWindow &window)
     if(sf::Mouse::getPosition(window).x >= 395 && sf::Mouse::getPosition(window).x <= 554 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
        sf::Mouse::isButtonPressed(sf::Mouse::Left)) //Non
     {
-        play = 0;
+
         end = 2;
         ia = 0;
     }
         m_speed = -0.5;
-        afficherScore = 0;
         m_ball.setPosition(400, 300);
         debut = 1;
 
@@ -303,9 +317,8 @@ Solo::Solo(bool pIa)
     this->initCircle(m_ball);
 
     //initialisation varaible
-    ia = pIa
+    ia = pIa;
     waitGoal = false;
-    sensi = 3;
 
     m_textureReplay.loadFromFile("ressource/Replay.png"); //Chargement de l'image replay
     m_spriteReplay.setTexture(m_textureReplay);

@@ -8,11 +8,15 @@ class Textfield
         //Method
         Textfield(); //Constructor
 
-        void recordingCharacter(sf::Event &event, int choixCaractere);
+        void recordingCharacter(sf::Event &event);
         void draw(sf::RenderWindow &window);
         sf::String chaineCaractere;
         void focus(sf::RenderWindow &window);
         void update(sf::RenderWindow &window, sf::Event &event);
+        int getSensi();
+        void reset();
+
+        //Var
         int record;
 
         virtual ~Textfield(); //Destructor
@@ -20,11 +24,11 @@ class Textfield
     protected:
     private:
 
-    char m_caractereEntrer = 0;
+    char m_caractereEntrer = 0, *pt;
     sf::Texture m_texture, m_textureFocus;
     sf::Sprite m_sprite;
     sf::Font font;
-    int i, m_focus;
+    int i, m_focus, m_sensi;
     sf::Text m_text;
 };
 

@@ -1,6 +1,6 @@
 #include "../include/Textfield.h"
 
-void Textfield::recordingCharacter(sf::Event &event, int choixCaractere)
+void Textfield::recordingCharacter(sf::Event &event)
 {
     sf::sleep(sf::milliseconds(90));
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace))
@@ -13,10 +13,11 @@ void Textfield::recordingCharacter(sf::Event &event, int choixCaractere)
     if (event.type == sf::Event::TextEntered)
     {
         m_caractereEntrer = event.text.unicode;
-        if(choixCaractere == 1 && m_caractereEntrer >= 48 && m_caractereEntrer <= 57 && i < 2)
+        if(m_caractereEntrer >= 49 && m_caractereEntrer <= 57 && i < 1) //If number are write by user (max 99)
         {
             chaineCaractere.insert(i, m_caractereEntrer);
             i++;
+            m_sensi = atoi(pt);
         }
         m_text.setString(chaineCaractere);
     }
@@ -24,7 +25,7 @@ void Textfield::recordingCharacter(sf::Event &event, int choixCaractere)
 void Textfield::focus(sf::RenderWindow &window)
 {
     if(sf::Mouse::getPosition(window).x >= 338 && sf::Mouse::getPosition(window).x <= 456 &&
-       sf::Mouse::getPosition(window).y >= 240 && sf::Mouse::getPosition(window).y <= 305 &&  //Texfield fired
+       sf::Mouse::getPosition(window).y >= 240 && sf::Mouse::getPosition(window).y <= 305 &&  //Texfield focused
         sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             m_sprite.setTexture(m_textureFocus);
@@ -41,7 +42,7 @@ void Textfield::update(sf::RenderWindow &window, sf::Event &event)
     focus(window);
     if(m_focus == 1)
     {
-        recordingCharacter(event, 1);
+        recordingCharacter(event);
     }
 }
 void Textfield::draw(sf::RenderWindow &window)
@@ -49,6 +50,17 @@ void Textfield::draw(sf::RenderWindow &window)
     window.draw(m_sprite);
     window.draw(m_text);
 }
+
+int Textfield::getSensi()
+{
+    return m_sensi;
+}
+
+void Textfield::reset()
+{
+    chaineCaractere.erase(chaineCaractere.getSize()- 1, 1);;
+}
+
 Textfield::Textfield()
 {
     //ctor
@@ -62,6 +74,8 @@ Textfield::Textfield()
     m_text.setCharacterSize(70);
     i = record = 0;
     m_caractereEntrer = 0;
+
+    pt = &m_caractereEntrer;
 }
 
 Textfield::~Textfield()

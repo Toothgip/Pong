@@ -6,14 +6,18 @@ class Solo
 {
     public:
         //Method
-        Solo(); //Constructor
+        Solo(bool pIa); //Constructor
 
         void initRectangle(sf::RectangleShape &rectangle, sf::Vector2f position);
         void initCircle (sf::CircleShape &circle);
+        void setSensi(int pSensi);
+
         void moveRectangle(sf::RectangleShape &rectangle, int direction);
         void moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &rectangle2);
-        void update(sf::Event &event, sf::RenderWindow &window);
+
+        bool update(sf::Event &event, sf::RenderWindow &window);
         void draw(sf::RenderWindow &window);
+
         void replay(sf::RenderWindow &window);
         void survie();
         void goal(int player);
@@ -24,7 +28,7 @@ class Solo
         virtual ~Solo(); //Destructor
 
         //Variable
-        int sensi, end = 0, debut = 1, afficherScore = 0;
+        int end = 0, debut = 1, afficherScore = 0;
         bool waitGoal;
         float m_temps = 0;
         sf::RectangleShape m_rectangle2;
@@ -34,7 +38,7 @@ class Solo
     private:
 
         bool ia;
-        int m_goalPlayer1 = 0, m_goalPlayer2 = 0;
+        int m_goalPlayer1 = 0, m_goalPlayer2 = 0, m_sensi;
         sf::RectangleShape m_rectangle1;
         sf::CircleShape m_ball;
         float m_x, m_y, m_speed;

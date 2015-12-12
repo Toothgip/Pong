@@ -31,15 +31,13 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
             m_textureMenu.loadFromFile("ressource/Menu/Menu.png"); //Basic menu whiout effect
         }
     }
-    if (choix == 1 && solo.play == 0)  //Solo menu is selected
+    if (choix == 1)  //Solo menu is selected
     {
         if(sf::Mouse::getPosition(window).x >= 304 && sf::Mouse::getPosition(window).x <= 505 &&
            sf::Mouse::getPosition(window).y >= 207 && sf::Mouse::getPosition(window).y <= 257 &&
            sf::Mouse::isButtonPressed(sf::Mouse::Left))  // Survie
         {
             m_textureFenetre.loadFromFile("ressource/Menu/Solo/Menu 1 focus.png");
-            solo.ia = 0;
-            solo.play = 1;
 
             return 1;
         }
@@ -49,8 +47,6 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         {
             m_textureFenetre.loadFromFile("ressource/Menu/Solo/Menu 2 focus.png");
             solo.initRectangle(solo.m_rectangle2, sf::Vector2f(RECTANGLE2X, 400));
-            solo.ia = 1;
-            solo.play = 1;
             return 2;
         }
         else
@@ -72,22 +68,22 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         versus.wait = 0;
     } */
 
-    if(choix == 3 && m_sensibilite == 0) // Parametre
+    if(choix == 4 && m_selected == 0) // Parametre
     {
         if(sf::Mouse::getPosition(window).x >= 90 && sf::Mouse::getPosition(window).x <= 711 &&
            sf::Mouse::getPosition(window).y >= 125 && sf::Mouse::getPosition(window).y <= 175 &&
            sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres b1 focus.png");
-            m_sensibilite = 1;
+            m_selected = 1;
+
         }
         else if(sf::Mouse::getPosition(window).x >= 90 && sf::Mouse::getPosition(window).x <= 718 &&
                 sf::Mouse::getPosition(window).y >= 226 && sf::Mouse::getPosition(window).y <= 276 &&
                 sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres b2 focus.png");
-            m_sensibilite = 1;
-            versus.reglageSensi = 1;
+            m_selected = 2;
         }
         else
         {
@@ -96,16 +92,19 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             choix = 0;
     }
-    if(choix == 3 && m_sensibilite != 0) //Sensibilité des curseurs
+    if(choix == 4  && m_selected !=0 ) //Sensibilité des curseurs
     {
         textfield.update(window, event);
         if(sf::Mouse::getPosition(window).x >= 285 && sf::Mouse::getPosition(window).x <= 410 &&
            sf::Mouse::getPosition(window).y >= 367 && sf::Mouse::getPosition(window).y <= 416 && //Bouton valider
             sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            versus.sensiRec = textfield.chaineCaractere;
-            versus.sensiRec = solo.sensiRec;
-            m_sensibilite = 0;
+            if(m_selected == 1)
+                m_sensibiliteP1 = textfield.getSensi();
+            else
+                m_sensibiliteP2 = textfield.getSensi();
+            m_selected = 0;
+            textfield.reset();
         }
     }
     return 0;
@@ -116,7 +115,7 @@ void Menu::draw(sf::RenderWindow &window)
     {
         window.draw(m_spriteMenu);  //Affichage du menu
     }
-    if (choix == 1 && solo.play == 0)     //Solo
+    if (choix == 1 )     //Solo
     {
         m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu.png");
         window.draw(m_spriteMenu);
@@ -136,18 +135,31 @@ void Menu::draw(sf::RenderWindow &window)
         window.draw(versus.m_spriteReplay);
         versus.replay(versus.rejouer, window);
     }*/
-    if(choix == 3 && m_sensibilite == 0)
+    if(choix == 4 && m_selected == 0)
     {
         m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres.png");
         m_spriteFenetre.setTexture(m_textureFenetre);
         window.draw(m_spriteFenetre);
     }
-    if(m_sensibilite != 0)
+    if(choix == 4 && m_selected != 0)
     {
        textfield.draw(window);
     }
 }
-Menu::Menu()
+
+
+int Menu::getSensiP1()
+{
+    return m_sensibiliteP1;
+}
+
+int Menu::getSensiP2()
+{
+    return m_sensibiliteP2;
+
+}
+
+Menu::Menu(): solo(false)
 {
     //ctor
     m_textureMenu.loadFromFile("ressource/Menu/Menu.png");
@@ -155,6 +167,10 @@ Menu::Menu()
     m_spriteFenetre.setTexture(m_textureMenu);
     m_textureParametre.loadFromFile("ressource/Menu/Parametre/Sensi.png");
     m_spriteParametre.setTexture(m_textureParametre);
+    choix = 0;
+    m_sensibiliteP1 = 3;
+    m_sensibiliteP2 = 3;
+    m_selected = 0;
 
 }
 Menu::~Menu()
