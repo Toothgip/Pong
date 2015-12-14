@@ -64,7 +64,7 @@ void Textfield::reset()
 Textfield::Textfield()
 {
     //ctor
-    m_textureFocus.loadFromFile("ressource/Menu/Parametre/Sensi fired.png");
+    m_textureFocus.loadFromFile("ressource/Menu/Parametre/Sensi-focus.png");
     m_texture.loadFromFile("ressource/Menu/Parametre/Sensi.png");
     m_sprite.setTexture(m_texture);
     font.loadFromFile("arial.ttf");

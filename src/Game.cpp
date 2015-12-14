@@ -3,7 +3,6 @@
 Game::Game(): m_solo(false) //Constructeur
 {
     m_step = 0;
-    //TO DO:Changer echelle de sensibilité
 }
 
 void Game::update(sf::RenderWindow &window, sf::Event &event)
@@ -19,11 +18,11 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
             m_solo.setSensi(m_menu.getSensiP1());
             break;
         }
-        case 1:             //Solo survie
+        case 1:             //Solo survival
         {
             m_solo.update(event, window);
 
-            if(m_solo.waitGoal) //Si il y a un but
+            if(m_solo.waitGoal) //If there is a goal
             {
                 sf::sleep(sf::milliseconds(500)); //Temporisation de 500 ms
                 m_solo.waitGoal = false;

@@ -22,14 +22,13 @@ class Menu
 
         Textfield textfield;
         Versus versus;
-        Solo solo;
 
     protected:
     private:
 
-        int choix = 0, m_sensibiliteP1, m_sensibiliteP2, m_selected;
-        sf::Texture m_textureMenu, m_textureFenetre, m_textureEvent, m_textureParametre;
-        sf::Sprite m_spriteMenu, m_spriteFenetre, m_spriteEvent, m_spriteParametre;
+        int choice = 0, m_sensibiliteP1, m_sensibiliteP2, m_selected;
+        sf::Texture m_textureMenu, m_textureFenetre, m_textureEvent;
+        sf::Sprite m_spriteMenu, m_spriteFenetre, m_spriteEvent;
 
 };
 
