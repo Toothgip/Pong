@@ -27,8 +27,8 @@ class Menu
     private:
 
         int choice = 0, m_sensibiliteP1, m_sensibiliteP2, m_selected;
-        sf::Texture m_textureMenu, m_textureFenetre, m_textureEvent;
-        sf::Sprite m_spriteMenu, m_spriteFenetre, m_spriteEvent;
+        sf::Texture m_textureMenu;
+        sf::Sprite m_spriteMenu;
 
 };
 

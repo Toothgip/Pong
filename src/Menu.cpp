@@ -13,7 +13,6 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
             {
                 choice = 1;
             }
-           //m_spriteFenetre.setTexture(m_textureFenetre);
         }
         else if(sf::Mouse::getPosition(window).x >= 265 && sf::Mouse::getPosition(window).x <= 485 &&
                 sf::Mouse::getPosition(window).y >= 237 && sf::Mouse::getPosition(window).y <= 286 )  //Versus button
@@ -33,7 +32,6 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) //If left click switch to submenu of tool
             {
                 choice = 4;
-                m_spriteFenetre.setTexture(m_textureFenetre);
             }
         }
         else
@@ -46,7 +44,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         if(sf::Mouse::getPosition(window).x >= 304 && sf::Mouse::getPosition(window).x <= 505 &&
            sf::Mouse::getPosition(window).y >= 207 && sf::Mouse::getPosition(window).y <= 257)  // Survival
         {
-            m_textureFenetre.loadFromFile("ressource/Menu/Solo/Menu 1 focus.png"); //Survival button with shape effect
+            m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu 1 focus.png"); //Survival button with shape effect
 
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
@@ -56,7 +54,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         else if(sf::Mouse::getPosition(window).x >= 367 && sf::Mouse::getPosition(window).x <= 426 &&
                 sf::Mouse::getPosition(window).y >= 291 && sf::Mouse::getPosition(window).y <= 339) // IA
         {
-            m_textureFenetre.loadFromFile("ressource/Menu/Solo/Menu 2 focus.png");  //IA button with shape effect
+            m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu 2 focus.png");  //IA button with shape effect
 
             //solo.initRectangle(solo.m_rectangle2, sf::Vector2f(RECTANGLE2X, 400)); //TODO: A faire dans le game pour le mod IA
 
@@ -67,7 +65,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         }
         else
         {
-            m_textureFenetre.loadFromFile("ressource/Menu/Solo/Menu.png"); //Basic menu whiout effect
+            m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu.png"); //Basic menu whiout effect
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))    //Return to main menu
             choice = 0;
@@ -87,7 +85,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         if(sf::Mouse::getPosition(window).x >= 90 && sf::Mouse::getPosition(window).x <= 711 &&
            sf::Mouse::getPosition(window).y >= 125 && sf::Mouse::getPosition(window).y <= 175)
         {
-            m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres_P1-focus.png"); //Button 2 with shape effect
+            m_textureMenu.loadFromFile("ressource/Menu/Parametre/Parametres_P1-focus.png"); //Button 2 with shape effect
 
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
@@ -97,7 +95,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         else if(sf::Mouse::getPosition(window).x >= 90 && sf::Mouse::getPosition(window).x <= 718 &&
                 sf::Mouse::getPosition(window).y >= 226 && sf::Mouse::getPosition(window).y <= 276)
         {
-            m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres_P2-focus.png");  //Button 2 with shape effect
+            m_textureMenu.loadFromFile("ressource/Menu/Parametre/Parametres_P2-focus.png");  //Button 2 with shape effect
 
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
@@ -106,7 +104,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         }
         else
         {
-            m_textureFenetre.loadFromFile("ressource/Menu/Parametre/Parametres.png");   //Basic menu whithout effect
+            m_textureMenu.loadFromFile("ressource/Menu/Parametre/Parametres.png");   //Basic menu whithout effect
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))    //Return to main menu
             choice = 0;
@@ -139,9 +137,7 @@ void Menu::draw(sf::RenderWindow &window)
     }
     if (choice == 1 )     //Solo
     {
-        m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu.png");
         window.draw(m_spriteMenu);
-        window.draw(m_spriteFenetre);
     }
    /* if (choice == 2 )  //Versus mode
     {                   //TODO:A gerer dans l'IA
@@ -155,7 +151,7 @@ void Menu::draw(sf::RenderWindow &window)
     }*/
     if(choice == 4 && m_selected == 0) //Tool
     {
-        window.draw(m_spriteFenetre);
+        window.draw(m_spriteMenu);
     }
     if(choice == 4 && m_selected != 0)  //Changing sensibility of a player
     {
@@ -179,7 +175,6 @@ Menu::Menu()
     m_textureMenu.loadFromFile("ressource/Menu/Menu.png");  //Basic menu whiout effect
     m_spriteMenu.setTexture(m_textureMenu);
 
-    m_spriteFenetre.setTexture(m_textureMenu);
 
     //Var indicate which menu is selected
     choice = 0;
