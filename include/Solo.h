@@ -6,10 +6,11 @@ class Solo
 {
     public:
         //Method
-        Solo(bool pIa); //Constructor
+        Solo(); //Constructor
 
         void initRectangle(sf::RectangleShape &rectangle, sf::Vector2f position);
         void initCircle (sf::CircleShape &circle);
+        void setIa(bool pIA);
         void setSensi(int pSensi);
 
         void moveRectangle(sf::RectangleShape &rectangle, int direction);

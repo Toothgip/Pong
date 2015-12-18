@@ -56,8 +56,6 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         {
             m_textureMenu.loadFromFile("ressource/Menu/Solo/Menu 2 focus.png");  //IA button with shape effect
 
-            //solo.initRectangle(solo.m_rectangle2, sf::Vector2f(RECTANGLE2X, 400)); //TODO: A faire dans le game pour le mod IA
-
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
                 return 2;
@@ -70,7 +68,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))    //Return to main menu
             choice = 0;
     }
-    /* TODO: A gerer dans l'IA
+    /* TODO: A gerer dans versus mode
     if (choice == 2 && versus.end == 0) //Versus update
         versus.update(event);
 
@@ -140,7 +138,7 @@ void Menu::draw(sf::RenderWindow &window)
         window.draw(m_spriteMenu);
     }
    /* if (choice == 2 )  //Versus mode
-    {                   //TODO:A gerer dans l'IA
+    {                   //TODO:A gerer in vesus mode
         window.clear();
         versus.draw(window);
     }

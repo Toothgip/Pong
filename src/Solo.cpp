@@ -11,6 +11,11 @@ void Solo::initCircle (sf::CircleShape &circle) // Balle
     circle.setPosition(sf::Vector2f(400, 300));
 }
 
+void Solo::setIa(bool pIA)
+{
+    ia = pIA;
+}
+
 void Solo::setSensi(int pSensi)
 {
     m_sensi = pSensi;
@@ -70,12 +75,12 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
     }
     if(circle.getPosition().x <= 0 ) // Rebond sur coté gauche de la fênetre
     {
-        if(ia == 1)                 //Si contre IA BUT de IA
+        if(ia == true)                 //Si contre IA BUT de IA
         {
-            m_speed = 0.5;
+            m_speed = 0.5;  //TODO: Mettre limite de vitesse
             goal(2);
         }
-        if(ia == 0)
+        if(ia == false)
         {
             end = 1;
         }
@@ -187,7 +192,7 @@ void Solo::score(int player)
         win(2);
     }
 }
-void Solo::survie()
+void Solo::survie() //TODO: Modifier vitesse de la balle en fonction du temps
 {
     ostringstream s;
     std::ostringstream stream;
@@ -195,7 +200,7 @@ void Solo::survie()
 
     m_time = m_clock.getElapsedTime();  //Get the time  to the timer
 
-    stream << m_time.asSeconds();   //Store of the temps in a flux
+    stream << m_time.asSeconds();   //Store the time in a flux  //TODO affiches les demi-secondes après 10s
     std::string str = stream.str(); //Conversion float to char
     temps = str;                    //Store the char in a string
 
@@ -205,7 +210,7 @@ void Solo::survie()
 
 }
 bool Solo::update(sf::Event &event, sf::RenderWindow &window)
-{
+{   //TODO: Gere bug de la balle bloqué dans un angle
     if(end == 0) //If the game is not finish
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
@@ -308,14 +313,13 @@ void Solo::replay(sf::RenderWindow &window)
         debut = 1;
 
 }
-Solo::Solo(bool pIa)
+Solo::Solo()
 {
     //ctor
     this->initRectangle(m_rectangle1, sf::Vector2f(RECTANGLE1X, 50));
     this->initCircle(m_ball);
 
     //initialisation varaible
-    ia = pIa;
     waitGoal = false;
 
     m_textureReplay.loadFromFile("ressource/Replay.png"); //Chargement de l'image replay

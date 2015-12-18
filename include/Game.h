@@ -28,6 +28,7 @@ class Game
 
         //Variable
         int m_step;
+        bool init;
 };
 
 #endif // GAME_H
