@@ -29,7 +29,7 @@ class Solo
         virtual ~Solo(); //Destructor
 
         //Variable
-        int end = 0, debut = 1, afficherScore = 0;
+        int end = 0, afficherScore = 0;
         bool waitGoal;
         float m_temps = 0;
         sf::RectangleShape m_rectangle2;

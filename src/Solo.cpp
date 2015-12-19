@@ -14,6 +14,9 @@ void Solo::initCircle (sf::CircleShape &circle) // Balle
 void Solo::setIa(bool pIA)
 {
     ia = pIA;
+
+    if(ia)
+        initRectangle(m_rectangle2, sf::Vector2f(RECTANGLE2X, 400)); //Init the AI curse
 }
 
 void Solo::setSensi(int pSensi)
@@ -152,12 +155,11 @@ void Solo::score(int player)
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 5:
-            m_texturePlayer1.loadFromFile("ressource/score/5.png");
-            m_spritePlayer1.setTexture(m_texturePlayer1);
+            win(1);
             break;
         }
     }
-    if(player == 2)
+    else if(player == 2)
     {
         switch(m_goalPlayer2)
         {
@@ -178,18 +180,9 @@ void Solo::score(int player)
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 5:
-            m_texturePlayer2.loadFromFile("ressource/score/5.png");
-            m_spritePlayer2.setTexture(m_texturePlayer2);
+            win(2);
             break;
         }
-    }
-    if(m_goalPlayer1 == 5)
-    {
-        win(1);
-    }
-    if(m_goalPlayer2 == 5)
-    {
-        win(2);
     }
 }
 void Solo::survie() //TODO: Modifier vitesse de la balle en fonction du temps
@@ -234,7 +227,11 @@ bool Solo::update(sf::Event &event, sf::RenderWindow &window)
         replay(window);
 
     if(end == 2)        //If the player don't want to replay
+    {
+        sf::sleep(sf::milliseconds(150));
         return true;
+    }
+
 
     return false;
 }
@@ -275,7 +272,6 @@ void Solo::draw(sf::RenderWindow &window)
         if(ia == false)                     //IA mod
             window.draw(m_spriteWin);
 
-
         window.draw(m_spriteReplay);        //Picture for replay
     }
 }
@@ -306,17 +302,16 @@ void Solo::replay(sf::RenderWindow &window)
     {
 
         end = 2;
-        ia = 0;
+        ia = false;
     }
         m_speed = -0.5;
         m_ball.setPosition(400, 300);
-        debut = 1;
 
 }
 Solo::Solo()
 {
     //ctor
-    this->initRectangle(m_rectangle1, sf::Vector2f(RECTANGLE1X, 50));
+    this->initRectangle(m_rectangle1, sf::Vector2f(RECTANGLE1X, 250));
     this->initCircle(m_ball);
 
     //initialisation varaible

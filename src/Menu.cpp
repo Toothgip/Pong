@@ -68,15 +68,6 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))    //Return to main menu
             choice = 0;
     }
-    /* TODO: A gerer dans versus mode
-    if (choice == 2 && versus.end == 0) //Versus update
-        versus.update(event);
-
-    if(versus.wait == 1)    // Attente après un but en versus
-    {
-        sf::sleep(sf::milliseconds(500));
-        versus.wait = 0;
-    } */
 
     if(choice == 4 && m_selected == 0) // Tool
     {
@@ -137,16 +128,6 @@ void Menu::draw(sf::RenderWindow &window)
     {
         window.draw(m_spriteMenu);
     }
-   /* if (choice == 2 )  //Versus mode
-    {                   //TODO:A gerer in vesus mode
-        window.clear();
-        versus.draw(window);
-    }
-    if(versus.end == 2 && choice == 2)  //Versus mode finish
-    {
-        window.draw(versus.m_spriteReplay);
-        versus.replay(versus.rejouer, window);
-    }*/
     if(choice == 4 && m_selected == 0) //Tool
     {
         window.draw(m_spriteMenu);

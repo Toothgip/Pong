@@ -14,39 +14,74 @@ void Versus::initScore (sf::Texture &texture)
 {
     texture.loadFromFile("ressource/score/0.png"); // Sprite Score a 0
 }
-void Versus::moveRectangle(sf::RectangleShape &rectangle, int direction)
-{
-    if(reglageSensi == 1)
-    {
-            std::istringstream iss(sensiRec);           //Conversion de la sensibilitée entrer
-            iss >> sensi;                               //Stockage dans une variable
-    }
-    if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
-        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - sensi);
 
-    if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
-        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + sensi);
+void Versus::setSensi(int pSensi1, int pSensi2)
+{
+    m_sensi1 = pSensi1;
+    m_sensi2 = pSensi2;
 }
-void Versus::update(sf::Event &event)
+void Versus::moveRectangle(sf::RectangleShape &rectangle, int direction, int player)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+    if(player == 1)
     {
-        moveRectangle(m_rectangle1, 1);     //Deplacement Player 1 vers le haut
+        if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
+        {
+            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - m_sensi1);
+        }
+
+        if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
+        {
+            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + m_sensi1);
+        }
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    else if(player == 1)
     {
-        moveRectangle(m_rectangle1, 2);     //Deplacement Player 1 vers le bas
+        if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
+        {
+            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - m_sensi2);
+        }
+
+        if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
+        {
+            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + m_sensi2);
+        }
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+}
+bool Versus::update(sf::RenderWindow &window, sf::Event &event)
+{
+    if(end == 0)
     {
-        moveRectangle(m_rectangle2, 1);     //Deplacement Player 2 vers le haut
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+        {
+            moveRectangle(m_rectangle1, 1, 1);     //Deplacement Player 1 vers le haut
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        {
+            moveRectangle(m_rectangle1, 2, 1);     //Deplacement Player 1 vers le bas
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        {
+            moveRectangle(m_rectangle2, 1, 2);     //Deplacement Player 2 vers le haut
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
+            moveRectangle(m_rectangle2, 2, 2);     //Deplacement Player 1 vers le bas
+        }
+        moveBall(m_ball, m_rectangle1, m_rectangle2); // Deplacement de la balle
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    else if (end == 2)
     {
-        moveRectangle(m_rectangle2, 2);     //Deplacement Player 1 vers le bas
+        replay(window);
     }
-    moveBall(m_ball, m_rectangle1, m_rectangle2); // Deplacement de la balle
+    else if(end == 3)
+    {
+        sf::sleep(sf::milliseconds(150));
+        return true;
+    }
+    return false;
+
 }
 void Versus::draw(sf::RenderWindow &window)
 {
@@ -58,15 +93,19 @@ void Versus::draw(sf::RenderWindow &window)
         window.draw(m_rectangle2);
         window.draw(m_ball);
     }
-    if (end == 1)                   // Si partie est fini
+    else if (end == 1)                   // If the game is finihed draw who has won
     {
         window.draw(m_spriteWin);
         window.display();
         sf::sleep(sf::seconds(0.7));
-        m_textureReplay.loadFromFile("ressource/Replay.png");
-        m_spriteReplay.setTexture(m_textureReplay);
+
         end = 2;
     }
+    else if (end == 2)
+    {
+        window.draw(m_spriteReplay);
+    }
+
 }
 void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &rectangle2)
 {
@@ -122,8 +161,8 @@ void Versus::goal(int player)                              // But
         m_goalPlayer2 = m_goalPlayer2 +1;
         score(2);
     }
-    wait = 1;
-    m_ball.setPosition(sf::Vector2f(400, 300));
+    waitGoal = true;
+    m_ball.setPosition(sf::Vector2f(400, 300)); //TODO:Changer deplacement de la balle apres un but
 }
 void Versus::score(int player)
 {
@@ -148,12 +187,11 @@ void Versus::score(int player)
             m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 5:
-            m_texturePlayer1.loadFromFile("ressource/score/5.png");
-            m_spritePlayer1.setTexture(m_texturePlayer1);
+            win(1);
             break;
         }
     }
-    if(player == 2)
+    else if(player == 2)
     {
         switch(m_goalPlayer2)
         {
@@ -174,19 +212,11 @@ void Versus::score(int player)
             m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 5:
-            m_texturePlayer2.loadFromFile("ressource/score/5.png");
-            m_spritePlayer2.setTexture(m_texturePlayer2);
+            win(2);
             break;
         }
     }
-    if(m_goalPlayer1 == 5)
-    {
-        win(1);
-    }
-    if(m_goalPlayer2 == 5)
-    {
-        win(2);
-    }
+
 }
 void Versus::win(int player)
 {
@@ -203,50 +233,53 @@ void Versus::win(int player)
     m_spriteWin.setPosition(100, 300);
 
 }
-void Versus::replay(int rejouer, sf::RenderWindow &window)
-{                                       // Gestion des X                            Gestion des Y              BOUTON OUI
+void Versus::replay(sf::RenderWindow &window)
+{
     if(sf::Mouse::getPosition(window).x >= 192 && sf::Mouse::getPosition(window).x <= 350 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
-       sf::Mouse::isButtonPressed(sf::Mouse::Left))
+       sf::Mouse::isButtonPressed(sf::Mouse::Left)) //If yes
        {
-        rejouer = 1;
+            end = 0;
        }
 
     if(sf::Mouse::getPosition(window).x >= 395 && sf::Mouse::getPosition(window).x <= 554 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
-       sf::Mouse::isButtonPressed(sf::Mouse::Left))
+       sf::Mouse::isButtonPressed(sf::Mouse::Left)) //if no
        {
-            rejouer = 0;
+            end = 3;
        }
 
-    if(rejouer == 1)
-    {
+        //Reset score
         m_goalPlayer1 = 0, m_goalPlayer2 = 0;
         m_spritePlayer1.setTexture(m_textureNull);
         m_spritePlayer2.setTexture(m_textureNull);
-        m_goalPlayer1 = m_goalPlayer2 = end = 0;
-    }
-    if(rejouer == 0)
-    {
-        window.close();
-    }
+
+        //end = 0;
 }
-Versus::Versus()
+Versus::Versus() //Constructor
 {
-     //ctor
-    this->initRectangle(m_rectangle1, sf::Vector2f(RECTANGLE1X, 50));
-    this->initRectangle(m_rectangle2, sf::Vector2f(RECTANGLE2X, 400));
+     //Initialization of curse, score and ball
+    this->initRectangle(m_rectangle1, sf::Vector2f(RECTANGLE1X, 250));
+    this->initRectangle(m_rectangle2, sf::Vector2f(RECTANGLE2X, 250));
     this->initCircle(m_ball);
     this->initScore(m_textureNull);
 
+    //Set position of the 2 curse and also their texture
     m_spritePlayer1.setTexture(m_textureNull);
     m_spritePlayer1.setPosition(100 ,70);
     m_spritePlayer2.setPosition(650 ,70);
     m_spritePlayer2.setTexture(m_textureNull);
 
+    //Initailise texture for asked to replay
+    m_textureReplay.loadFromFile("ressource/Replay.png");
+    m_spriteReplay.setTexture(m_textureReplay);
+
+    //Var
+    m_sensi1 = 3; // Set sensibility
+    m_sensi2 = 3;
     m_goalPlayer1 = 0, m_goalPlayer2 = 0;
     m_speed = 0.5;
     m_x = m_speed, m_y = m_speed;
-    sensiRec = 3;
-    sensi = 3;
+    end = 0;
+    waitGoal = false;
 }
 Versus::~Versus()
 {
