@@ -184,20 +184,17 @@ void Solo::score(int player)
 }
 void Solo::survie() //TODO: Modifier vitesse de la balle en fonction du temps
 {
-    ostringstream s;
-    std::ostringstream stream;
-    stream.precision(2);
-
     m_time = m_clock.getElapsedTime();  //Get the time  to the timer
 
-    stream << m_time.asSeconds();   //Store the time in a flux  //TODO affiches les demi-secondes après 10s
-    std::string str = stream.str(); //Conversion float to char
-    temps = str;                    //Store the char in a string
+    if((float)m_time.asMilliseconds()/1000 >= 10)
+    {
+        stream.precision(4);              //Increase significant digit for have 2 decimal
+    }
+    stream << (float)m_time.asMilliseconds()/1000;   //Store the time in a flow
 
-    m_textTime.setString(temps);    //Set the time in a string
+    m_textTime.setString(stream.str());    //Set the time in a string
 
-    m_textWin.setString("Ton score est de"); //Text when the game is finshed
-
+    stream.str(""); //Clear the flow
 }
 bool Solo::update(sf::Event &event, sf::RenderWindow &window)
 {   //TODO: Gere bug de la balle bloqué dans un angle
@@ -321,15 +318,16 @@ Solo::Solo()
     m_textureReplay.loadFromFile("ressource/Replay.png"); //Chargement de l'image replay
     m_spriteReplay.setTexture(m_textureReplay);
 
-    font.loadFromFile("arial.ttf"); //Initilization Font
+    font.loadFromFile("arial.ttf"); //Initialization Font
 
     m_textTime.setFont(font);
-    m_textTime.setColor(sf::Color::White);          //Initilization of time text in survival
+    m_textTime.setColor(sf::Color::White);          //Initialization of time text in survival
     m_textTime.setPosition(300, 70);
 
-    m_textWin.setFont(font);
+    m_textWin.setFont(font);                        //Initialization of TextWin
     m_textWin.setColor(sf::Color::White);
     m_textWin.setPosition(300, 300);
+    m_textWin.setString("Your score is");           //Text when the survival mod is finished
 
     m_x = m_y = m_speed = 0.05;              //Initialization speed
 
@@ -344,7 +342,11 @@ Solo::Solo()
     m_spriteWin.setTexture(m_textureWin);       //Set texture for win and position
     m_spriteWin.setPosition(100, 300);
 
+    //Initialization vars for Survival mod
+
     m_clock.restart();  //Start timer for solo mod
+
+    stream.precision(3);        //Number of significant digit
 }
 
 Solo::~Solo()

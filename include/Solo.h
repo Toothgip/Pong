@@ -35,6 +35,9 @@ class Solo
         sf::RectangleShape m_rectangle2;
         string sensiRec, temps;
 
+        //Flow for survival mod
+        std::ostringstream stream;
+
     protected:
     private:
 
