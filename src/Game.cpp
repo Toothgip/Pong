@@ -17,7 +17,7 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
             //reset the mod
             m_versus.end = 0;
             m_solo.end = 0;
-            init = true;
+            init = false;
 
             m_step = m_menu.update(window, event);
 

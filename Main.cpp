@@ -29,7 +29,7 @@ int main()
 
         window.display();
 
-        sf::sleep(sf::milliseconds(3)); // Pour ralentir la boucle pour la balle et les rectangles
+        sf::sleep(sf::milliseconds(0.5)); // Pour ralentir la boucle pour la balle et les rectangles
     }
     return EXIT_SUCCESS;
 }

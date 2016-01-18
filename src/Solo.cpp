@@ -28,10 +28,10 @@ void Solo::moveRectangle(sf::RectangleShape &rectangle, int direction)
 {
 
     if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
-        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - m_sensi);
+        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - (0.1 *m_sensi));
 
     if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
-        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + m_sensi);
+        rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + (0.1 * m_sensi));
 }
 void Solo::IA()
 {
@@ -62,9 +62,9 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
     {
         if(ia == 1)                 //Si contre IA BUT du joueur
         {
-            m_speed = 0.5;
             goal(1);
         }
+
         if(m_speed <= 0)
         {
             m_y = m_speed;
@@ -80,7 +80,6 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
     {
         if(ia == true)                 //Si contre IA BUT de IA
         {
-            m_speed = 0.5;  //TODO: Mettre limite de vitesse
             goal(2);
         }
         if(ia == false)
@@ -88,28 +87,31 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
             end = 1;
         }
     }
+        //TODO: Probleme de collision avec les rectangles
     if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x &&
-       circle.getPosition().y >= rectangle1.getPosition().y &&   // Rebond rectangle 1
+       circle.getPosition().x >= RECTANGLE1X &&
+       circle.getPosition().y >= rectangle1.getPosition().y &&          // Rebond rectangle 1
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
       {
-        if(m_speed < 3)
+        if(m_speed < 2)
         {
-            m_speed = 1.2*m_speed;
+            m_speed = 1.1*m_speed;
         }
-            if (m_speed <= 0)
-                m_x = -1*m_speed;
-            else
-                m_x = m_speed;
+        if (m_x <= 0)
+            m_x = m_speed;
+        else
+            m_x = -1*m_speed;
       }
     if(circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x &&
-       circle.getPosition().y >= rectangle2.getPosition().y && //Rebond rectangle 2 si IA
+       circle.getPosition().x <= RECTANGLE2X &&
+       circle.getPosition().y >= rectangle2.getPosition().y &&              //Rebond rectangle 2 si IA
        circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y && ia == 1)
     {
-        if(m_speed < 4)
-        {
-            m_speed = 1.2*m_speed;
-        }
-        if(m_speed > 0)
+        if(m_speed < 2)
+            m_speed = 1.1*m_speed;
+
+
+        if(m_x > 0)
             m_x = -1 * m_speed;
         else
             m_x = m_speed;
@@ -129,8 +131,9 @@ void Solo::goal(int player)                              // But
         score(2);
     }
     waitGoal = true;
-    m_ball.setPosition(sf::Vector2f(400, 300));
-    m_speed = -0.5;
+    m_ball.setPosition(sf::Vector2f(400, 300)); //Replace the ball at the middle
+    m_speed = 0.05; //Reset speed
+     //TODO: Mettre limite de vitesse
 }
 void Solo::score(int player)
 {
@@ -144,15 +147,12 @@ void Solo::score(int player)
             break;
         case 2:
             m_texturePlayer1.loadFromFile("ressource/score/2.png");
-            m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 3:
             m_texturePlayer1.loadFromFile("ressource/score/3.png");
-            m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 4:
             m_texturePlayer1.loadFromFile("ressource/score/4.png");
-            m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 5:
             win(1);
@@ -169,15 +169,12 @@ void Solo::score(int player)
             break;
         case 2:
             m_texturePlayer2.loadFromFile("ressource/score/2.png");
-            m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 3:
             m_texturePlayer2.loadFromFile("ressource/score/3.png");
-            m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 4:
             m_texturePlayer2.loadFromFile("ressource/score/4.png");
-            m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 5:
             win(2);
@@ -220,8 +217,10 @@ bool Solo::update(sf::Event &event, sf::RenderWindow &window)
         {
             survie();
         }
-        if(ia == true)
+        else                    //If IA has been choosen
+        {
             IA();
+        }
     }
     if(end == 1)        // If the  game is finished asked if player want to replay
         replay(window);
@@ -287,6 +286,10 @@ void Solo::win(int player)
     }
     end = 1;
 
+    //Reseting all value
+    m_goalPlayer1 = 0;
+    m_goalPlayer2 = 0;
+    m_speed = 0.05;
 }
 void Solo::replay(sf::RenderWindow &window)
 {
@@ -294,7 +297,7 @@ void Solo::replay(sf::RenderWindow &window)
     if(sf::Mouse::getPosition(window).x >= 192 && sf::Mouse::getPosition(window).x <= 350 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
     sf::Mouse::isButtonPressed(sf::Mouse::Left)) //Oui
     {
-        end = 0;
+        end = 0; //The game restart
     }
 
     if(sf::Mouse::getPosition(window).x >= 395 && sf::Mouse::getPosition(window).x <= 554 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
@@ -304,10 +307,8 @@ void Solo::replay(sf::RenderWindow &window)
         end = 2;
         ia = false;
     }
-        m_speed = -0.5;
-        m_ball.setPosition(400, 300);
-
 }
+
 Solo::Solo()
 {
     //ctor
@@ -330,7 +331,7 @@ Solo::Solo()
     m_textWin.setColor(sf::Color::White);
     m_textWin.setPosition(300, 300);
 
-    m_x = m_y = m_speed = -0.5;              //Initialization speed
+    m_x = m_y = m_speed = 0.05;              //Initialization speed
 
     m_textureNull.loadFromFile("ressource/score/0.png");    //Initialization score to 0
 

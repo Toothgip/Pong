@@ -116,7 +116,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
             textfield.reset(); //Once submit reset textfield
         }
     }
-    return 0;   //Tell at cGame that wee are always in menu
+    return 0;   //Tell at Game that wee are always in menu
 }
 void Menu::draw(sf::RenderWindow &window)
 {

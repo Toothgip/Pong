@@ -26,24 +26,24 @@ void Versus::moveRectangle(sf::RectangleShape &rectangle, int direction, int pla
     {
         if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
         {
-            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - m_sensi1);
+            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - (0.1 * m_sensi2));
         }
 
         if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
         {
-            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + m_sensi1);
+            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + (0.1 * m_sensi2));
         }
     }
-    else if(player == 1)
+    else if(player == 2)
     {
         if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
         {
-            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - m_sensi2);
+            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - (0.1 * m_sensi2));
         }
 
         if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
         {
-            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + m_sensi2);
+            rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + (0.1 * m_sensi2));
         }
     }
 
@@ -112,24 +112,25 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
     if(circle.getPosition().y >= WINDOW_Y - 20)  // Rebond sur bas de la fenetre
         m_y = -1*m_speed;
 
-    if(circle.getPosition().y <= 0)      //Rebond sur le haut de la fênetre;
+    if(circle.getPosition().y <= 0)      //Rebond sur le haut de la fênetre
         m_y = m_speed;
 
     if(circle.getPosition().x >= WINDOW_X - 20)    // Rebond sur coté droit de la fenetre But pour joueur 1
     {
-        m_speed = 0.5;
+        m_speed = 0.05;
         m_x = m_speed;
         m_y = m_speed;
         goal(1);
     }
     if(circle.getPosition().x <= 0 ) // Rebond sur coté gauche de la fênetre  But pou joueur 2
     {
-        m_speed = 0.5;
-        m_x = m_speed;
-        m_y = m_speed;
+        m_speed = 0.05;
+        m_x = -1* m_speed;
+        m_y = -1* m_speed;
         goal(2);
     }
-    if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x && circle.getPosition().y >= rectangle1.getPosition().y &&   // Rebond rectangle 1
+    if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x &&
+       circle.getPosition().y >= rectangle1.getPosition().y &&   // Rebond rectangle 1
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
       {
         if(m_speed < 4)
@@ -138,7 +139,8 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
         }
          m_x = m_speed;
       }
-    if(circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x && circle.getPosition().y >= rectangle2.getPosition().y && //Rebond rectangle 2
+    if(circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x &&
+       circle.getPosition().y >= rectangle2.getPosition().y && //Rebond rectangle 2
        circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y)
     {
         if(m_speed < 4)
@@ -149,20 +151,20 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
     }
     circle.setPosition(circle.getPosition().x + m_x, circle.getPosition().y + m_y);
 }
-void Versus::goal(int player)                              // But
+void Versus::goal(int player)                              // Goal
 {
-    if(player == 1)         //But joueur 1
+    if(player == 1)         //Goal player 1
     {
         m_goalPlayer1 = m_goalPlayer1 +1;
         score(1);
     }
-    if (player == 2)        //But joueur 2
+    if (player == 2)        //Goal player 2
     {
         m_goalPlayer2 = m_goalPlayer2 +1;
         score(2);
     }
     waitGoal = true;
-    m_ball.setPosition(sf::Vector2f(400, 300)); //TODO:Changer deplacement de la balle apres un but
+    m_ball.setPosition(sf::Vector2f(400, 300));
 }
 void Versus::score(int player)
 {
@@ -176,15 +178,12 @@ void Versus::score(int player)
             break;
         case 2:
             m_texturePlayer1.loadFromFile("ressource/score/2.png");
-            m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 3:
             m_texturePlayer1.loadFromFile("ressource/score/3.png");
-            m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 4:
             m_texturePlayer1.loadFromFile("ressource/score/4.png");
-            m_spritePlayer1.setTexture(m_texturePlayer1);
             break;
         case 5:
             win(1);
@@ -201,15 +200,12 @@ void Versus::score(int player)
             break;
         case 2:
             m_texturePlayer2.loadFromFile("ressource/score/2.png");
-            m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 3:
             m_texturePlayer2.loadFromFile("ressource/score/3.png");
-            m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 4:
             m_texturePlayer2.loadFromFile("ressource/score/4.png");
-            m_spritePlayer2.setTexture(m_texturePlayer2);
             break;
         case 5:
             win(2);
@@ -252,7 +248,6 @@ void Versus::replay(sf::RenderWindow &window)
         m_spritePlayer1.setTexture(m_textureNull);
         m_spritePlayer2.setTexture(m_textureNull);
 
-        //end = 0;
 }
 Versus::Versus() //Constructor
 {
@@ -276,7 +271,7 @@ Versus::Versus() //Constructor
     m_sensi1 = 3; // Set sensibility
     m_sensi2 = 3;
     m_goalPlayer1 = 0, m_goalPlayer2 = 0;
-    m_speed = 0.5;
+    m_speed = 0.05;
     m_x = m_speed, m_y = m_speed;
     end = 0;
     waitGoal = false;
