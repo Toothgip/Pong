@@ -2,6 +2,8 @@ Pong
 ====
 Inspired by the popular arcade game.
 
+Created in 2014, Currently I am trying to optimize code (Dec 2015 - Today)
+
 In this game you can play different modes: 
 - A survival mode: In this mode you play alone and you need of survive as long as possible against a wall
 - AI mode: You play against a basic AI the first player with 5 points win
