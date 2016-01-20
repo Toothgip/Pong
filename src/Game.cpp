@@ -14,7 +14,7 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
         case 0:             //Main Menu
         {
 
-            //reset the mod
+            //Reset the mod
             m_versus.end = 0;
             m_solo.end = 0;
             init = false;
@@ -43,17 +43,28 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
             if(init == false)
             {
                 m_solo.setIa(true); //Init class Solo with IA
-                init = true;
             }
 
             if(m_solo.update(event, window)) //If update return true: return to main menu
                 m_step = 0;
+
+            if(init == false)  //Add a temporization at the beginning of the game
+            {
+                sf::sleep(sf::milliseconds(100));
+                init = true;
+            }
             break;
         }
         case 3:             //Versus mod
         {
             if(m_versus.update(window, event)) //If update return true: return to main menu
                 m_step = 0;
+
+            if(init == false)
+            {
+                sf::sleep(sf::milliseconds(100));
+                init = true;
+            }
             break;
         }
     }
@@ -64,7 +75,6 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
         m_solo.waitGoal = false;
         m_versus.waitGoal = false;
     }
-    //TODO: Ajouter une temporisation au début du jeu
 }
 
 void Game::draw(sf::RenderWindow &window)

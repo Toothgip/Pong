@@ -5,7 +5,7 @@ void Solo::initRectangle(sf::RectangleShape &rectangle, sf::Vector2f position)
     rectangle.setPosition(position.x, position.y);
     rectangle.setSize(sf::Vector2f(20, 150));
 }
-void Solo::initCircle (sf::CircleShape &circle) // Balle
+void Solo::initCircle (sf::CircleShape &circle) // Ball
 {
     circle.setRadius(10);
     circle.setPosition(sf::Vector2f(400, 300));
@@ -27,45 +27,54 @@ void Solo::setSensi(int pSensi)
 void Solo::moveRectangle(sf::RectangleShape &rectangle, int direction)
 {
 
-    if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
+    if(direction == 1 && rectangle.getPosition().y >=0 ) // Up
         rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - (0.1 *m_sensi));
 
-    if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
+    if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Down
         rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + (0.1 * m_sensi));
 }
 void Solo::IA()
 {
-    if(m_y < 0 && m_rectangle2.getPosition().y >= 0 && m_rectangle2.getPosition().y >= m_ball.getPosition().y) //Si balle montez
-        moveRectangle(m_rectangle2, 1);              //Rectangle monte
+    if(m_y < 0 && m_rectangle2.getPosition().y >= 0 &&
+       m_rectangle2.getPosition().y >= m_ball.getPosition().y) //If ball move up
+    {
+        moveRectangle(m_rectangle2, 1);              //Curse move up
+    }
+
 
     if(m_y >0 && m_rectangle2.getPosition().y <= WINDOW_Y - 148 &&
-       m_rectangle2.getPosition().y <= m_ball.getPosition().y) //Si balle descends
-        moveRectangle(m_rectangle2, 2);                          //Rectangle descend
-
-
+       m_rectangle2.getPosition().y <= m_ball.getPosition().y) //If ball move down
+       {
+           moveRectangle(m_rectangle2, 2);                          //Curse move down
+       }
 }
+
 void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &rectangle2)
 {
-    if(circle.getPosition().y >= WINDOW_Y - 20)  // Rebond sur bas de la fenetre
+    if(circle.getPosition().y >= WINDOW_Y - 20)  // Rebound on the bottom of the window
+    {
         if(m_speed <= 0)
             m_y = m_speed;
         else
             m_y = -1*m_speed;
+    }
 
-    if(circle.getPosition().y <= 0)      //Rebond sur le haut de la fênetre;
+    if(circle.getPosition().y <= 0)      //Rebound on the top of the window
+    {
         if (m_speed <= 0)
             m_y = -1*m_speed;
         else
             m_y = m_speed;
+    }
 
-    if(circle.getPosition().x >= WINDOW_X - 20)    // Rebond sur coté droit de la fenetre
+    if(circle.getPosition().x >= WINDOW_X - 20)    // Rebound on the right side of the window
     {
-        if(ia == 1)                 //Si contre IA BUT du joueur
+        if(ia == 1)                 //If IA mod: Goal for player
         {
             goal(1);
         }
 
-        if(m_speed <= 0)
+        if(m_speed <= 0)            //Changing the direction of the ball
         {
             m_y = m_speed;
             m_x = m_speed;
@@ -76,13 +85,13 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
             m_x = -1*m_speed;
         }
     }
-    if(circle.getPosition().x <= 0 ) // Rebond sur coté gauche de la fênetre
+    if(circle.getPosition().x <= 0 ) // Rebound on the left side of the window
     {
-        if(ia == true)                 //Si contre IA BUT de IA
+        if(ia == true)                 //If IA mod: gol for IA
         {
             goal(2);
         }
-        if(ia == false)
+        else                 //If survival mod: Player lost -> end of the game
         {
             end = 1;
         }
@@ -90,7 +99,7 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
         //TODO: Probleme de collision avec les rectangles
     if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x &&
        circle.getPosition().x >= RECTANGLE1X &&
-       circle.getPosition().y >= rectangle1.getPosition().y &&          // Rebond rectangle 1
+       circle.getPosition().y >= rectangle1.getPosition().y &&          // Rebound curse 1
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
       {
         if(m_speed < 2)
@@ -104,8 +113,9 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
       }
     if(circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x &&
        circle.getPosition().x <= RECTANGLE2X &&
-       circle.getPosition().y >= rectangle2.getPosition().y &&              //Rebond rectangle 2 si IA
-       circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y && ia == 1)
+       circle.getPosition().y >= rectangle2.getPosition().y &&              //Rebound curse 2 if IA mod
+       circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y &&
+       ia == 1)
     {
         if(m_speed < 2)
             m_speed = 1.1*m_speed;
@@ -116,21 +126,22 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
         else
             m_x = m_speed;
     }
-    circle.setPosition(circle.getPosition().x + m_x, circle.getPosition().y + m_y);
+
+    circle.setPosition(circle.getPosition().x + m_x, circle.getPosition().y + m_y);  //moving of the ball
 }
-void Solo::goal(int player)                              // But
+void Solo::goal(int player)                              // Goal
 {
-    if(player == 1)         //But joueur 1
+    if(player == 1)         //If goal for player 1
     {
         m_goalPlayer1 = m_goalPlayer1 +1;
         score(1);
     }
-    if (player == 2)        //But joueur 2
+    if (player == 2)        //If goal for player 1
     {
         m_goalPlayer2 = m_goalPlayer2 +1;
         score(2);
     }
-    waitGoal = true;
+    waitGoal = true;    //Set a sleep time
     m_ball.setPosition(sf::Vector2f(400, 300)); //Replace the ball at the middle
     m_speed = 0.05; //Reset speed
      //TODO: Mettre limite de vitesse
@@ -239,15 +250,15 @@ void Solo::draw(sf::RenderWindow &window)
         window.draw(m_ball);
 
         if(ia == false)            //If survival mod
+        {
             window.draw(m_textTime);
-
-        if (ia == true)             //If versus mod
+        }
+        else                        //If versus mod
         {
             window.draw(m_spritePlayer1);
             window.draw(m_spritePlayer2);
             window.draw(m_rectangle2);
         }
-
     }
     if (end == 1)                   // If the game is finished
     {
@@ -271,13 +282,14 @@ void Solo::draw(sf::RenderWindow &window)
         window.draw(m_spriteReplay);        //Picture for replay
     }
 }
+
 void Solo::win(int player)
 {
     if (player == 1)        //If player 1 win
     {
         m_textureWin.loadFromFile("ressource/Player1.png");
     }
-    if(player == 2)         //If player 2 win
+    else       //If player 2 win
     {
         m_textureWin.loadFromFile("ressource/Player2.png");
     }
@@ -292,57 +304,62 @@ void Solo::replay(sf::RenderWindow &window)
 {
 
     if(sf::Mouse::getPosition(window).x >= 192 && sf::Mouse::getPosition(window).x <= 350 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
-    sf::Mouse::isButtonPressed(sf::Mouse::Left)) //Oui
+    sf::Mouse::isButtonPressed(sf::Mouse::Left)) //Yes
     {
         end = 0; //The game restart
     }
 
     if(sf::Mouse::getPosition(window).x >= 395 && sf::Mouse::getPosition(window).x <= 554 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
-       sf::Mouse::isButtonPressed(sf::Mouse::Left)) //Non
+       sf::Mouse::isButtonPressed(sf::Mouse::Left)) //No
     {
-
-        end = 2;
+        end = 2;        //Return to main menu reseting the solo mod
         ia = false;
     }
 }
 
-Solo::Solo()
+Solo::Solo()    //Constructor
 {
-    //ctor
+    //Init Curse of player and the ball
     this->initRectangle(m_rectangle1, sf::Vector2f(RECTANGLE1X, 250));
     this->initCircle(m_ball);
 
-    //initialisation varaible
+    //Initialisation variable for a sleep time after a goal
     waitGoal = false;
 
-    m_textureReplay.loadFromFile("ressource/Replay.png"); //Chargement de l'image replay
+    //Set the picture of replay
+    m_textureReplay.loadFromFile("ressource/Replay.png");
     m_spriteReplay.setTexture(m_textureReplay);
 
     font.loadFromFile("arial.ttf"); //Initialization Font
 
+    //Initialization of time text in survival
     m_textTime.setFont(font);
-    m_textTime.setColor(sf::Color::White);          //Initialization of time text in survival
+    m_textTime.setColor(sf::Color::White);
     m_textTime.setPosition(300, 70);
 
-    m_textWin.setFont(font);                        //Initialization of TextWin
+    //Initialization of TextWin in survival mod which draw the score
+    m_textWin.setFont(font);
     m_textWin.setColor(sf::Color::White);
     m_textWin.setPosition(300, 300);
-    m_textWin.setString("Your score is");           //Text when the survival mod is finished
+    m_textWin.setString("Your score is");
 
     m_x = m_y = m_speed = 0.05;              //Initialization speed
 
     m_textureNull.loadFromFile("ressource/score/0.png");    //Initialization score to 0
 
-    m_spritePlayer1.setTexture(m_textureNull);              //Set score of player 1
+    //Set position score of player 1
+    m_spritePlayer1.setTexture(m_textureNull);
     m_spritePlayer1.setPosition(100 ,70);
+    m_goalPlayer1 = 0;
 
-    m_spritePlayer2.setPosition(650 ,70);                   //Set score of player 2
+    //Set position score of player 2
+    m_spritePlayer2.setPosition(650 ,70);
     m_spritePlayer2.setTexture(m_textureNull);
+    m_goalPlayer2 = 0;
 
-    m_spriteWin.setTexture(m_textureWin);       //Set texture for win and position
+    //Set texture and position for draw the winner in IA mod
+    m_spriteWin.setTexture(m_textureWin);
     m_spriteWin.setPosition(100, 300);
-
-    //Initialization vars for Survival mod
 
     m_clock.restart();  //Start timer for solo mod
 
@@ -351,5 +368,5 @@ Solo::Solo()
 
 Solo::~Solo()
 {
-    //dtor
+    //Destructor
 }

@@ -6,8 +6,6 @@ int main()
 {
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(WINDOW_X, WINDOW_Y), "Pong");
-    //Versus Versus;
-    //Menu menu;
 
     Game game;
 
@@ -29,7 +27,7 @@ int main()
 
         window.display();
 
-        sf::sleep(sf::milliseconds(0.5)); // Pour ralentir la boucle pour la balle et les rectangles
+        sf::sleep(sf::milliseconds(0.5)); //Temporization for slow the ball and the curse
     }
     return EXIT_SUCCESS;
 }
