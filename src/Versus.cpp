@@ -109,61 +109,74 @@ void Versus::draw(sf::RenderWindow &window)
 }
 void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &rectangle2)
 {
-    if(circle.getPosition().y >= WINDOW_Y - 20)  // Rebond sur bas de la fenetre
-        m_y = -1*m_speed;
-
-    if(circle.getPosition().y <= 0)      //Rebond sur le haut de la fênetre
-        m_y = m_speed;
-
-    if(circle.getPosition().x >= WINDOW_X - 20)    // Rebond sur coté droit de la fenetre But pour joueur 1
+    if(circle.getPosition().y >= WINDOW_Y - 20 && m_y >= 0)  // Rebound on the bottom of the window
     {
-        m_speed = 0.05;
-        m_x = m_speed;
-        m_y = m_speed;
+        m_y = -1*m_y;
+    }
+
+    if(circle.getPosition().y <= 0 && m_y <= 0)      //Rebound on the top of the window
+    {
+        m_y = -1*m_y;
+    }
+
+    if(circle.getPosition().x >= WINDOW_X - 20) // Rebound on the right side on the window: Goal for player 1
+    {
         goal(1);
     }
-    if(circle.getPosition().x <= 0 ) // Rebond sur coté gauche de la fênetre  But pou joueur 2
+
+    if(circle.getPosition().x <= 0 ) // Rebound on the left side on the window: Goal for player 2
     {
-        m_speed = 0.05;
-        m_x = -1* m_speed;
-        m_y = -1* m_speed;
         goal(2);
     }
-    if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x &&
-       circle.getPosition().y >= rectangle1.getPosition().y &&   // Rebond rectangle 1
+
+    if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x && // Rebound curse 1
+       circle.getPosition().y >= rectangle1.getPosition().y &&
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
       {
-        if(m_speed < 4)
+        if(m_speed < 2 && m_x <= 0)
         {
-        m_speed = 1.2*m_speed;
+            m_speed = 1.1*m_speed;
+            m_x = m_speed;
         }
-         m_x = m_speed;
       }
+
     if(circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x &&
-       circle.getPosition().y >= rectangle2.getPosition().y && //Rebond rectangle 2
+       circle.getPosition().y >= rectangle2.getPosition().y &&         //Rebound rectangle 2
        circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y)
     {
-        if(m_speed < 4)
+        if(m_speed < 2 && m_x >= 0)
         {
-         m_speed = 1.2*m_speed;
+             m_speed = 1.2*m_speed;
+             m_x = -1 * m_speed;
         }
-        m_x = -1 * m_speed;
     }
-    circle.setPosition(circle.getPosition().x + m_x, circle.getPosition().y + m_y);
+
+    circle.setPosition(circle.getPosition().x + m_x, circle.getPosition().y + m_y); //Moving of the ball
 }
 void Versus::goal(int player)                              // Goal
 {
+    m_speed = 0.05; //Reseting speed
+
     if(player == 1)         //Goal player 1
     {
         m_goalPlayer1 = m_goalPlayer1 +1;
         score(1);
+
+        //Reseting speed of the ball
+        m_x = m_speed;
+        m_y = m_speed;
     }
-    if (player == 2)        //Goal player 2
+    else        //Goal player 2
     {
         m_goalPlayer2 = m_goalPlayer2 +1;
         score(2);
+
+        //Reseting speed of the ball
+        m_x = -1* m_speed;
+        m_y = -1* m_speed;
     }
     waitGoal = true;
+
     m_ball.setPosition(sf::Vector2f(400, 300));
 }
 void Versus::score(int player)
@@ -234,20 +247,19 @@ void Versus::replay(sf::RenderWindow &window)
     if(sf::Mouse::getPosition(window).x >= 192 && sf::Mouse::getPosition(window).x <= 350 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
        sf::Mouse::isButtonPressed(sf::Mouse::Left)) //If yes
        {
-            end = 0;
+            end = 0; //The game restart
        }
 
-    if(sf::Mouse::getPosition(window).x >= 395 && sf::Mouse::getPosition(window).x <= 554 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
+    else if(sf::Mouse::getPosition(window).x >= 395 && sf::Mouse::getPosition(window).x <= 554 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
        sf::Mouse::isButtonPressed(sf::Mouse::Left)) //if no
        {
-            end = 3;
+            end = 3; //Return to main menu
        }
 
-        //Reset score
-        m_goalPlayer1 = 0, m_goalPlayer2 = 0;
-        m_spritePlayer1.setTexture(m_textureNull);
-        m_spritePlayer2.setTexture(m_textureNull);
-
+    //Reset score
+    m_goalPlayer1 = 0, m_goalPlayer2 = 0;
+    m_spritePlayer1.setTexture(m_textureNull);
+    m_spritePlayer2.setTexture(m_textureNull);
 }
 Versus::Versus() //Constructor
 {
@@ -263,18 +275,25 @@ Versus::Versus() //Constructor
     m_spritePlayer2.setPosition(650 ,70);
     m_spritePlayer2.setTexture(m_textureNull);
 
-    //Initailise texture for asked to replay
+    //Initialize texture for asked to replay
     m_textureReplay.loadFromFile("ressource/Replay.png");
     m_spriteReplay.setTexture(m_textureReplay);
 
     //Var
-    m_sensi1 = 3; // Set sensibility
-    m_sensi2 = 3;
-    m_goalPlayer1 = 0, m_goalPlayer2 = 0;
-    m_speed = 0.05;
-    m_x = m_speed, m_y = m_speed;
-    end = 0;
-    waitGoal = false;
+        // Set sensibility of curses
+        m_sensi1 = 3;
+        m_sensi2 = 3;
+
+        //Initialize score
+        m_goalPlayer1 = 0, m_goalPlayer2 = 0;
+
+        //Initialize speed
+        m_speed = 0.05;
+        m_x = m_speed, m_y = m_speed;
+
+
+        end = 0;
+        waitGoal = false;
 }
 Versus::~Versus()
 {

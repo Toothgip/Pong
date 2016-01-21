@@ -34,13 +34,12 @@ void Solo::moveRectangle(sf::RectangleShape &rectangle, int direction)
         rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + (0.1 * m_sensi));
 }
 void Solo::IA()
-{
+{ //TODO: Faire bouger le rectangle que quand la balle revient
     if(m_y < 0 && m_rectangle2.getPosition().y >= 0 &&
        m_rectangle2.getPosition().y >= m_ball.getPosition().y) //If ball move up
     {
         moveRectangle(m_rectangle2, 1);              //Curse move up
     }
-
 
     if(m_y >0 && m_rectangle2.getPosition().y <= WINDOW_Y - 148 &&
        m_rectangle2.getPosition().y <= m_ball.getPosition().y) //If ball move down
@@ -51,20 +50,13 @@ void Solo::IA()
 
 void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &rectangle2)
 {
-    if(circle.getPosition().y >= WINDOW_Y - 20)  // Rebound on the bottom of the window
+    if(circle.getPosition().y >= WINDOW_Y - 20 && m_y >= 0)  // Rebound on the bottom of the window
     {
-        if(m_speed <= 0)
-            m_y = m_speed;
-        else
-            m_y = -1*m_speed;
+        m_y = -1*m_y;
     }
-
-    if(circle.getPosition().y <= 0)      //Rebound on the top of the window
+    if(circle.getPosition().y <= 0 && m_y <= 0)      //Rebound on the top of the window
     {
-        if (m_speed <= 0)
-            m_y = -1*m_speed;
-        else
-            m_y = m_speed;
+        m_y = -1*m_y;
     }
 
     if(circle.getPosition().x >= WINDOW_X - 20)    // Rebound on the right side of the window
@@ -73,21 +65,14 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
         {
             goal(1);
         }
-
-        if(m_speed <= 0)            //Changing the direction of the ball
+        else if(m_x > 0)            //If Survival mod changing direction of the ball
         {
-            m_y = m_speed;
-            m_x = m_speed;
-        }
-        else
-        {
-            m_y = -1*m_speed;
-            m_x = -1*m_speed;
+            m_x = -1*m_x;
         }
     }
     if(circle.getPosition().x <= 0 ) // Rebound on the left side of the window
     {
-        if(ia == true)                 //If IA mod: gol for IA
+        if(ia == true)                 //If IA mod: goal for IA
         {
             goal(2);
         }
@@ -96,38 +81,32 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
             end = 1;
         }
     }
-        //TODO: Probleme de collision avec les rectangles
+        //TODO: Probleme de collision avec les rectangles normal
     if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x &&
        circle.getPosition().x >= RECTANGLE1X &&
        circle.getPosition().y >= rectangle1.getPosition().y &&          // Rebound curse 1
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
       {
-        if(m_speed < 2)
+        if(m_speed < 2 && m_x <= 0)
         {
             m_speed = 1.1*m_speed;
+            m_x = m_speed;
         }
-        if (m_x <= 0)
-            m_x = m_speed;
-        else
-            m_x = -1*m_speed;
       }
-    if(circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x &&
+    if(ia == 1 &&   //Rebound curse 2 if IA mod
+       circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x &&
        circle.getPosition().x <= RECTANGLE2X &&
-       circle.getPosition().y >= rectangle2.getPosition().y &&              //Rebound curse 2 if IA mod
-       circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y &&
-       ia == 1)
+       circle.getPosition().y >= rectangle2.getPosition().y &&
+       circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y)
     {
-        if(m_speed < 2)
+        if(m_speed < 2 && m_x >= 0)
+        {
             m_speed = 1.1*m_speed;
-
-
-        if(m_x > 0)
             m_x = -1 * m_speed;
-        else
-            m_x = m_speed;
+        }
     }
 
-    circle.setPosition(circle.getPosition().x + m_x, circle.getPosition().y + m_y);  //moving of the ball
+    circle.setPosition(circle.getPosition().x + m_x, circle.getPosition().y + m_y);  //Moving of the ball
 }
 void Solo::goal(int player)                              // Goal
 {
@@ -148,7 +127,7 @@ void Solo::goal(int player)                              // Goal
 }
 void Solo::score(int player)
 {
-    if(player == 1)
+    if(player == 1) //Goal for player
     {
         switch(m_goalPlayer1)
         {
@@ -170,7 +149,7 @@ void Solo::score(int player)
             break;
         }
     }
-    else if(player == 2)
+    else //Goal for IA
     {
         switch(m_goalPlayer2)
         {
@@ -208,7 +187,7 @@ void Solo::survie() //TODO: Modifier vitesse de la balle en fonction du temps
     stream.str(""); //Clear the flow
 }
 bool Solo::update(sf::Event &event, sf::RenderWindow &window)
-{   //TODO: Gere bug de la balle bloqué dans un angle
+{
     if(end == 0) //If the game is not finish
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
@@ -295,10 +274,7 @@ void Solo::win(int player)
     }
     end = 1;
 
-    //Reseting all value
-    m_goalPlayer1 = 0;
-    m_goalPlayer2 = 0;
-    m_speed = 0.05;
+
 }
 void Solo::replay(sf::RenderWindow &window)
 {
@@ -315,6 +291,12 @@ void Solo::replay(sf::RenderWindow &window)
         end = 2;        //Return to main menu reseting the solo mod
         ia = false;
     }
+
+    //Reseting all value
+    m_goalPlayer1 = 0;
+    m_goalPlayer2 = 0;
+    m_spritePlayer1.setTexture(m_textureNull);
+    m_spritePlayer2.setTexture(m_textureNull);
 }
 
 Solo::Solo()    //Constructor
