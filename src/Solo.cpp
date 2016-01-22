@@ -34,18 +34,31 @@ void Solo::moveRectangle(sf::RectangleShape &rectangle, int direction)
         rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + (0.1 * m_sensi));
 }
 void Solo::IA()
-{ //TODO: Faire bouger le rectangle que quand la balle revient
-    if(m_y < 0 && m_rectangle2.getPosition().y >= 0 &&
-       m_rectangle2.getPosition().y >= m_ball.getPosition().y) //If ball move up
+{
+    if(m_x <= 0)    //If the ball goes to Player 1
     {
-        moveRectangle(m_rectangle2, 1);              //Curse move up
+        //Centre the curse at the middle of the window
+        if(m_rectangle2.getPosition().y + (m_rectangle2.getSize().y/2) >= WINDOW_Y/2)
+        {
+            moveRectangle(m_rectangle2, 1);     //Move up
+        }
+        else if(m_rectangle2.getPosition().y + (m_rectangle2.getSize().y/2) <= WINDOW_Y/2)
+        {
+            moveRectangle(m_rectangle2, 2);     //Move down
+        }
     }
-
-    if(m_y >0 && m_rectangle2.getPosition().y <= WINDOW_Y - 148 &&
-       m_rectangle2.getPosition().y <= m_ball.getPosition().y) //If ball move down
-       {
-           moveRectangle(m_rectangle2, 2);                          //Curse move down
-       }
+    else if(m_ball.getPosition().x >= WINDOW_X/2 && m_x >= 0 ) //If the ball goes to IA
+    {
+        if(m_y < 0 && m_rectangle2.getPosition().y >= m_ball.getPosition().y) //If ball move up
+        {
+            moveRectangle(m_rectangle2, 1);              //Curse move up
+        }
+        else if(m_y >0 && m_rectangle2.getPosition().y <= WINDOW_Y - 148 &&
+        m_rectangle2.getPosition().y <= m_ball.getPosition().y) //If ball move down
+        {
+            moveRectangle(m_rectangle2, 2);                          //Curse move down
+        }
+    }
 }
 
 void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &rectangle2)

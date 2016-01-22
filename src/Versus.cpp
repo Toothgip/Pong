@@ -22,31 +22,28 @@ void Versus::setSensi(int pSensi1, int pSensi2)
 }
 void Versus::moveRectangle(sf::RectangleShape &rectangle, int direction, int player)
 {
-    if(player == 1)
+    if(player == 1)    //Player 1
     {
-        if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
+        if(direction == 1 && rectangle.getPosition().y >=0 ) // Move up
         {
             rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - (0.1 * m_sensi2));
         }
-
-        if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
+        else if (direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Move down
         {
             rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + (0.1 * m_sensi2));
         }
     }
-    else if(player == 2)
+    else    //Player 2
     {
-        if(direction == 1 && rectangle.getPosition().y >=0 ) // Monter
+        if(direction == 1 && rectangle.getPosition().y >=0 ) // Move up
         {
             rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - (0.1 * m_sensi2));
         }
-
-        if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Descendre
+        else if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) //Move Down
         {
             rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + (0.1 * m_sensi2));
         }
     }
-
 }
 bool Versus::update(sf::RenderWindow &window, sf::Event &event)
 {
