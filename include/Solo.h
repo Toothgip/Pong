@@ -42,7 +42,7 @@ class Solo
     private:
 
         bool ia;
-        int m_goalPlayer1, m_goalPlayer2, m_sensi;
+        int m_goalPlayer1, m_goalPlayer2, m_sensi, m_timeSpeed;
         sf::RectangleShape m_rectangle1;
         sf::CircleShape m_ball;
         float m_x, m_y, m_speed;

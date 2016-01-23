@@ -17,6 +17,8 @@ void Solo::setIa(bool pIA)
 
     if(ia)
         initRectangle(m_rectangle2, sf::Vector2f(RECTANGLE2X, 400)); //Init the AI curse
+    else
+        m_clock.restart(); //Restart clock of timer in survival mod
 }
 
 void Solo::setSensi(int pSensi)
@@ -185,7 +187,7 @@ void Solo::score(int player)
         }
     }
 }
-void Solo::survie() //TODO: Modifier vitesse de la balle en fonction du temps
+void Solo::survie()
 {
     m_time = m_clock.getElapsedTime();  //Get the time  to the timer
 
@@ -198,6 +200,29 @@ void Solo::survie() //TODO: Modifier vitesse de la balle en fonction du temps
     m_textTime.setString(stream.str());    //Set the time in a string
 
     stream.str(""); //Clear the flow
+
+    if(m_timeSpeed < (int)m_time.asSeconds() && m_speed < 2)
+    {
+        m_timeSpeed = (int)m_time.asSeconds();      //The speed increase every second
+
+        m_speed =  m_speed * (1 + m_time.asSeconds()/500);
+
+        printf("%f", m_speed);
+        //Update speed in vertical axis and horizontal axis
+        if(m_x < 0)
+        {
+            m_x = -1 * m_speed;
+        }
+        else
+            m_x = m_speed;
+
+        if(m_y < 0)
+        {
+             m_y = -1 * m_speed;
+        }
+        else
+            m_y = m_speed;
+    }
 }
 bool Solo::update(sf::Event &event, sf::RenderWindow &window)
 {
@@ -310,6 +335,7 @@ void Solo::replay(sf::RenderWindow &window)
     m_goalPlayer2 = 0;
     m_spritePlayer1.setTexture(m_textureNull);
     m_spritePlayer2.setTexture(m_textureNull);
+    m_clock.restart();
 }
 
 Solo::Solo()    //Constructor
@@ -357,7 +383,7 @@ Solo::Solo()    //Constructor
     m_spriteWin.setPosition(100, 300);
 
     m_clock.restart();  //Start timer for solo mod
-
+    m_timeSpeed = 0; //Initialize variable wherein stored seconds wherein the speed increase in survival mod
     stream.precision(3);        //Number of significant digit
 }
 
