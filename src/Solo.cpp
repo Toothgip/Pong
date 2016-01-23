@@ -160,7 +160,7 @@ void Solo::score(int player)
             m_texturePlayer1.loadFromFile("ressource/score/4.png");
             break;
         case 5:
-            win(1);
+            win(1);  //Win for player 1
             break;
         }
     }
@@ -182,7 +182,7 @@ void Solo::score(int player)
             m_texturePlayer2.loadFromFile("ressource/score/4.png");
             break;
         case 5:
-            win(2);
+            win(2);  //Win for IA
             break;
         }
     }
@@ -311,8 +311,6 @@ void Solo::win(int player)
         m_textureWin.loadFromFile("ressource/Player2.png");
     }
     end = 1;
-
-
 }
 void Solo::replay(sf::RenderWindow &window)
 {
