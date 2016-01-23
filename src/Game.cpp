@@ -104,7 +104,8 @@ void Game::draw(sf::RenderWindow &window)
     }
 
 }
-
+        //TODO: Ajouter la possibilité de faire échap dans la textfield
+        //TODO: bug dans la textfield lorsque l'on veut changer la sensi pour la 2eme fois de suite
 
 Game::~Game()
 {

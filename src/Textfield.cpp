@@ -59,7 +59,10 @@ int Textfield::getSensi()
 void Textfield::reset()
 {
     if(chaineCaractere.getSize() != 0)
+    {
         chaineCaractere.erase(0, 1);
+    }
+
 
     m_text.setString("");
 }
