@@ -1,9 +1,9 @@
 #include "Game.h"
 
-Game::Game() //Constructeur
+Game::Game() //Constructor
 {
     m_step = 0;
-    init = false; //Use for initialise curse ... in some mode
+    init = false; //Use for initialize curse ... in some mode or IA
 }
 
 void Game::update(sf::RenderWindow &window, sf::Event &event)
@@ -96,7 +96,7 @@ void Game::draw(sf::RenderWindow &window)
             m_solo.draw(window);
             break;
         }
-        case 3:
+        case 3:         //Versus Mod
         {
             m_versus.draw(window);
             break;
@@ -104,10 +104,8 @@ void Game::draw(sf::RenderWindow &window)
     }
 
 }
-        //TODO: Ajouter la possibilité de faire échap dans la textfield
-        //TODO: bug dans la textfield lorsque l'on veut changer la sensi pour la 2eme fois de suite
 
-Game::~Game()
+Game::~Game()   //Destructor
 {
-    //dtor
+
 }

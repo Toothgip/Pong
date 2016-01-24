@@ -16,19 +16,16 @@ class Textfield
         int getSensi();
         void reset();
 
-        //Var
-        int record;
-
         virtual ~Textfield(); //Destructor
 
     protected:
     private:
 
-    char m_caractereEntrer = 0, *pt;
+    char m_caractereEntrer, *pt;
     sf::Texture m_texture, m_textureFocus;
     sf::Sprite m_sprite;
     sf::Font font;
-    int i, m_focus, m_sensi;
+    int m_focus, m_sensi;
     sf::Text m_text;
 };
 

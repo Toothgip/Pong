@@ -115,6 +115,13 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
             m_selected = 0;     //There no anymore sensiblity currently modified
             textfield.reset(); //Once submit reset textfield
         }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))    //Return to menu of curse sensibility
+        {
+            m_selected = 0;     //There no anymore sensiblity currently modified
+            textfield.reset(); //Once submit reset textfield
+            sf::sleep(sf::milliseconds(200)); //delay for no return directly to main menu
+        }
     }
     return 0;   //Tell at Game that wee are always in menu
 }
@@ -149,7 +156,7 @@ int Menu::getSensiP2()
 
 }
 
-Menu::Menu()
+Menu::Menu() //Constructor
 {
     m_textureMenu.loadFromFile("ressource/Menu/Menu.png");  //Basic menu whiout effect
     m_spriteMenu.setTexture(m_textureMenu);
@@ -168,5 +175,5 @@ Menu::Menu()
 }
 Menu::~Menu()
 {
-    //dtor
+    //Destructor
 }
