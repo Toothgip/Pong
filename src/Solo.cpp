@@ -36,10 +36,10 @@ void Solo::moveRectangle(sf::RectangleShape &rectangle, int direction)
         rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + (0.1 * m_sensi));
 }
 void Solo::IA()
-{
+{   //TODO: IA trop lent en descendant
     if(m_x <= 0)    //If the ball goes to Player 1
     {
-        //Centre the curse at the middle of the window
+        //Center the curse at the middle of the window
         if(m_rectangle2.getPosition().y + (m_rectangle2.getSize().y/2) >= WINDOW_Y/2)
         {
             moveRectangle(m_rectangle2, 1);     //Move up
@@ -49,14 +49,13 @@ void Solo::IA()
             moveRectangle(m_rectangle2, 2);     //Move down
         }
     }
-    else if(m_ball.getPosition().x >= WINDOW_X/2 && m_x >= 0 ) //If the ball goes to IA
+    else if(m_ball.getPosition().x >= WINDOW_X/2- 100 && m_x >= 0 ) //If the ball goes to IA
     {
-        if(m_y < 0 && m_rectangle2.getPosition().y >= m_ball.getPosition().y) //If ball move up
+        if(m_y < 0 && m_rectangle2.getPosition().y -20  >= m_ball.getPosition().y) //If ball move up
         {
             moveRectangle(m_rectangle2, 1);              //Curse move up
         }
-        else if(m_y >0 && m_rectangle2.getPosition().y <= WINDOW_Y - 148 &&
-        m_rectangle2.getPosition().y <= m_ball.getPosition().y) //If ball move down
+        if(m_y > 0 && m_rectangle2.getPosition().y + m_rectangle2.getSize().y + 20 <= m_ball.getPosition().y) //If ball move down
         {
             moveRectangle(m_rectangle2, 2);                          //Curse move down
         }
@@ -102,7 +101,7 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
        circle.getPosition().y >= rectangle1.getPosition().y &&          // Rebound curse 1
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
       {
-        if(m_speed < 2 && m_x <= 0)
+        if(m_speed < 0.5 && m_x <= 0)
         {
             m_speed = 1.1*m_speed;
             m_x = m_speed;
@@ -114,7 +113,7 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
        circle.getPosition().y >= rectangle2.getPosition().y &&
        circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y)
     {
-        if(m_speed < 2 && m_x >= 0)
+        if(m_speed < 0.5 && m_x >= 0)
         {
             m_speed = 1.1*m_speed;
             m_x = -1 * m_speed;
@@ -138,7 +137,6 @@ void Solo::goal(int player)                              // Goal
     waitGoal = true;    //Set a sleep time
     m_ball.setPosition(sf::Vector2f(400, 300)); //Replace the ball at the middle
     m_speed = 0.05; //Reset speed
-     //TODO: Mettre limite de vitesse
 }
 void Solo::score(int player)
 {
@@ -201,7 +199,7 @@ void Solo::survie()
 
     stream.str(""); //Clear the flow
 
-    if(m_timeSpeed < (int)m_time.asSeconds() && m_speed < 2)
+    if(m_timeSpeed < (int)m_time.asSeconds() && m_speed < 0.5)
     {
         m_timeSpeed = (int)m_time.asSeconds();      //The speed increase every second
 

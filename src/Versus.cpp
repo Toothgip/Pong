@@ -130,7 +130,7 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
        circle.getPosition().y >= rectangle1.getPosition().y &&
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
       {
-        if(m_speed < 2 && m_x <= 0)
+        if(m_speed < 0.5 && m_x <= 0)
         {
             m_speed = 1.1*m_speed;      //Increasing speed
             m_x = m_speed;
@@ -141,7 +141,7 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
        circle.getPosition().y >= rectangle2.getPosition().y &&         //Rebound Player 2 curse
        circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y)
     {
-        if(m_speed < 2 && m_x >= 0)
+        if(m_speed < 0.5 && m_x >= 0)
         {
              m_speed = 1.1*m_speed;  //Increasing speed
              m_x = -1 * m_speed;
