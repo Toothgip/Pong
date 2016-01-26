@@ -121,7 +121,7 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
         goal(1);
     }
 
-    if(circle.getPosition().x <= 0 ) // Rebound on the left side on the window: Goal for player 2
+    if(circle.getPosition().x <= RECTANGLE1X - 5 ) // Rebound on the left side on the window: Goal for player 2
     {
         goal(2);
     }

@@ -28,15 +28,18 @@ void Solo::setSensi(int pSensi)
 
 void Solo::moveRectangle(sf::RectangleShape &rectangle, int direction)
 {
-
     if(direction == 1 && rectangle.getPosition().y >=0 ) // Up
+    {
         rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y - (0.1 *m_sensi));
-
-    if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Down
+    }
+    else if(direction == 2 && rectangle.getPosition().y <= WINDOW_Y - 148) // Down
+    {
         rectangle.setPosition(rectangle.getPosition().x, rectangle.getPosition().y + (0.1 * m_sensi));
+    }
+
 }
 void Solo::IA()
-{   //TODO: IA trop lent en descendant
+{
     if(m_x <= 0)    //If the ball goes to Player 1
     {
         //Center the curse at the middle of the window
@@ -49,13 +52,13 @@ void Solo::IA()
             moveRectangle(m_rectangle2, 2);     //Move down
         }
     }
-    else if(m_ball.getPosition().x >= WINDOW_X/2- 100 && m_x >= 0 ) //If the ball goes to IA
+    if(m_ball.getPosition().x > WINDOW_X/2- 50 && m_x >= 0 ) //If the ball goes to IA
     {
-        if(m_y < 0 && m_rectangle2.getPosition().y -20  >= m_ball.getPosition().y) //If ball move up
+        if(m_ball.getPosition().y <= m_rectangle2.getPosition().y + 20 ) //If ball move up
         {
             moveRectangle(m_rectangle2, 1);              //Curse move up
         }
-        if(m_y > 0 && m_rectangle2.getPosition().y + m_rectangle2.getSize().y + 20 <= m_ball.getPosition().y) //If ball move down
+        else if(m_ball.getPosition().y >=  m_rectangle2.getPosition().y + m_rectangle2.getSize().y - 20) //If ball move down
         {
             moveRectangle(m_rectangle2, 2);                          //Curse move down
         }
@@ -84,7 +87,7 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
             m_x = -1*m_x;
         }
     }
-    if(circle.getPosition().x <= 0 ) // Rebound on the left side of the window
+    if(circle.getPosition().x <= RECTANGLE1X - 5 ) // Rebound on the left side of the window
     {
         if(ia == true)                 //If IA mod: goal for IA
         {
@@ -92,7 +95,8 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
         }
         else                 //If survival mod: Player lost -> end of the game
         {
-            end = 1;
+            m_ball.setPosition(sf::Vector2f(400, 300)); //Reset ball for survival mod
+            end = 1; //End of the game
         }
     }
         //TODO: Probleme de collision avec les rectangles normal
@@ -205,7 +209,6 @@ void Solo::survie()
 
         m_speed =  m_speed * (1 + m_time.asSeconds()/500);
 
-        printf("%f", m_speed);
         //Update speed in vertical axis and horizontal axis
         if(m_x < 0)
         {
@@ -332,6 +335,7 @@ void Solo::replay(sf::RenderWindow &window)
     m_spritePlayer1.setTexture(m_textureNull);
     m_spritePlayer2.setTexture(m_textureNull);
     m_clock.restart();
+
 }
 
 Solo::Solo()    //Constructor
