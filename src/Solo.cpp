@@ -13,9 +13,9 @@ void Solo::initCircle (sf::CircleShape &circle) // Ball
 
 void Solo::setIa(bool pIA)
 {
-    ia = pIA;
+    m_ia = pIA;
 
-    if(ia)
+    if(m_ia)
         initRectangle(m_rectangle2, sf::Vector2f(RECTANGLE2X, 400)); //Init the AI curse
     else
         m_clock.restart(); //Restart clock of timer in survival mod
@@ -65,7 +65,7 @@ void Solo::IA()
     }
 }
 
-void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &rectangle2)
+void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf::RectangleShape &m_rectangle2)
 {
     if(circle.getPosition().y >= WINDOW_Y - 20 && m_y >= 0)  // Rebound on the bottom of the window
     {
@@ -78,7 +78,7 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
 
     if(circle.getPosition().x >= WINDOW_X - 20)    // Rebound on the right side of the window
     {
-        if(ia == 1)                 //If IA mod: Goal for player
+        if(m_ia == 1)                 //If IA mod: Goal for player
         {
             goal(1);
         }
@@ -89,7 +89,7 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
     }
     if(circle.getPosition().x <= RECTANGLE1X - 5 ) // Rebound on the left side of the window
     {
-        if(ia == true)                 //If IA mod: goal for IA
+        if(m_ia == true)                 //If IA mod: goal for IA
         {
             goal(2);
         }
@@ -99,27 +99,32 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
             end = 1; //End of the game
         }
     }
-        //TODO: Probleme de collision avec les rectangles normal
     if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x &&
        circle.getPosition().x >= RECTANGLE1X &&
        circle.getPosition().y >= rectangle1.getPosition().y &&          // Rebound curse 1
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
       {
-        if(m_speed < 0.5 && m_x <= 0)
+        if(m_x <= 0)
         {
-            m_speed = 1.1*m_speed;
+            if(m_speed < 0.5) //If the limit of the speed is not reach
+            {
+                m_speed = 1.1*m_speed; //Increasing speed
+            }
             m_x = m_speed;
         }
       }
-    if(ia == 1 &&   //Rebound curse 2 if IA mod
-       circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x &&
+    if(m_ia== 1 &&   //Rebound curse 2 if IA mod
+       circle.getPosition().x >= RECTANGLE2X - m_rectangle2.getSize().x &&
        circle.getPosition().x <= RECTANGLE2X &&
-       circle.getPosition().y >= rectangle2.getPosition().y &&
-       circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y)
+       circle.getPosition().y >= m_rectangle2.getPosition().y &&
+       circle.getPosition().y <= m_rectangle2.getPosition().y + m_rectangle2.getSize().y)
     {
         if(m_speed < 0.5 && m_x >= 0)
         {
-            m_speed = 1.1*m_speed;
+            if(m_speed < 0.5) //If the limit of the speed is not reach
+            {
+                m_speed = 1.1*m_speed;  //Increasing speed
+            }
             m_x = -1 * m_speed;
         }
     }
@@ -239,11 +244,11 @@ bool Solo::update(sf::Event &event, sf::RenderWindow &window)
         }
         moveBall(m_ball, m_rectangle1, m_rectangle2); // Move of the ball
 
-        if(ia == false)            //IF no IA get the time
+        if(m_ia == false)            //IF no IA get the time
         {
             survie();
         }
-        else                    //If IA has been choosen
+        else                    //If IA has been chosen
         {
             IA();
         }
@@ -267,7 +272,7 @@ void Solo::draw(sf::RenderWindow &window)
         window.draw(m_rectangle1);
         window.draw(m_ball);
 
-        if(ia == false)            //If survival mod
+        if(m_ia == false)            //If survival mod
         {
             window.draw(m_textTime);
         }
@@ -280,22 +285,23 @@ void Solo::draw(sf::RenderWindow &window)
     }
     if (end == 1)                   // If the game is finished
     {
-        if(afficherScore == 0 && ia == false)   //Survival mod
+        if(afficherScore == true && m_ia == false)   //Survival mod
         {
-            m_textTime.setPosition(540, 300);
+            m_textTime.setPosition(540, 300); //Move the text at the middle of the window
 
+            //Draw texts
             window.draw(m_textTime);
             window.draw(m_textWin);
 
             window.display();
 
-            sf::sleep(sf::seconds(1));
-            afficherScore = 1;
-            m_textTime.setPosition(300, 70);
+            sf::sleep(sf::seconds(1)); //Delay for see your score
+            afficherScore = false;
+            m_textTime.setPosition(300, 70); //Replace the time at the top: his origin position
         }
 
-        if(ia == false)                     //IA mod
-            window.draw(m_spriteWin);
+        if(m_ia == false)       //IA mod
+            window.draw(m_spriteWin); //Draw who wins
 
         window.draw(m_spriteReplay);        //Picture for replay
     }
@@ -326,7 +332,7 @@ void Solo::replay(sf::RenderWindow &window)
        sf::Mouse::isButtonPressed(sf::Mouse::Left)) //No
     {
         end = 2;        //Return to main menu reseting the solo mod
-        ia = false;
+        m_ia = false;
     }
 
     //Reseting all value
@@ -335,6 +341,7 @@ void Solo::replay(sf::RenderWindow &window)
     m_spritePlayer1.setTexture(m_textureNull);
     m_spritePlayer2.setTexture(m_textureNull);
     m_clock.restart();
+    afficherScore  = true;
 
 }
 
@@ -344,8 +351,14 @@ Solo::Solo()    //Constructor
     this->initRectangle(m_rectangle1, sf::Vector2f(RECTANGLE1X, 250));
     this->initCircle(m_ball);
 
-    //Initialisation variable for a sleep time after a goal
+    //Variable for a sleep time after a goal
     waitGoal = false;
+
+    //Variable manage the drawing in solo mod at the end of the game
+    afficherScore = true;
+
+    //Manage the state of the game
+    end = 0;
 
     //Set the picture of replay
     m_textureReplay.loadFromFile("ressource/Replay.png");

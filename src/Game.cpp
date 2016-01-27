@@ -8,12 +8,12 @@ Game::Game() //Constructor
 
 void Game::update(sf::RenderWindow &window, sf::Event &event)
 {
-
+    //TODO: Changer les extensions des .h en .hpp
     switch(m_step)
     {
         case 0:             //Main Menu
         {
-
+            //TODO: Faire des objets dynamique qui seront supprimé a la fin d'un mod et donc les values sont donc sauvegarder
             //Reset the mod
             m_versus.end = 0;
             m_solo.end = 0;
@@ -56,7 +56,7 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
             break;
         }
         case 3:             //Versus mod
-        {
+        {          //TODO: Faire les commentaire en versus sur le .h et le .cpp
             if(m_versus.update(window, event)) //If update return true: return to main menu
                 m_step = 0;
 

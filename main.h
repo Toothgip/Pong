@@ -9,6 +9,7 @@
 #include <string.h>
 using namespace std;
 
+//Constant
 #define RECTANGLE1X 20
 #define RECTANGLE2X 760
 #define WINDOW_X 800
