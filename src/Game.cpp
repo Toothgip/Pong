@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "Game.hpp"
 
 Game::Game() //Constructor
 {
@@ -8,7 +8,7 @@ Game::Game() //Constructor
 
 void Game::update(sf::RenderWindow &window, sf::Event &event)
 {
-    //TODO: Changer les extensions des .h en .hpp
+    //TODO: Faire commentaire Textfield et menu
     switch(m_step)
     {
         case 0:             //Main Menu
@@ -56,7 +56,7 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
             break;
         }
         case 3:             //Versus mod
-        {          //TODO: Faire les commentaire en versus sur le .h et le .cpp
+        {
             if(m_versus.update(window, event)) //If update return true: return to main menu
                 m_step = 0;
 

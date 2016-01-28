@@ -1,9 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
-#include "..\main.h"
-#include "Menu.h"
-#include "Versus.h"
-#include "Solo.h"
+#include "..\Main.hpp"
+#include "Menu.hpp"
+#include "Versus.hpp"
+#include "Solo.hpp"
 
 
 class Game

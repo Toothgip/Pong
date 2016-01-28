@@ -1,4 +1,4 @@
-#include "../include/Solo.h"
+#include "../include/Solo.hpp"
 
 void Solo::initRectangle(sf::RectangleShape &rectangle, sf::Vector2f position)
 {
@@ -133,19 +133,27 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
 }
 void Solo::goal(int player)                              // Goal
 {
+    m_speed = 0.05; //Reset speed
     if(player == 1)         //If goal for player 1
     {
         m_goalPlayer1 = m_goalPlayer1 +1;
         score(1);
+
+        //Reseting speed of the ball
+        m_x = m_speed;
+        m_y = m_speed;
     }
-    if (player == 2)        //If goal for player 1
+    if (player == 2)        //If goal for AI
     {
         m_goalPlayer2 = m_goalPlayer2 +1;
         score(2);
+
+        //Reseting speed of the ball
+        m_x = -1* m_speed;
+        m_y = -1* m_speed;
     }
     waitGoal = true;    //Set a sleep time
     m_ball.setPosition(sf::Vector2f(400, 300)); //Replace the ball at the middle
-    m_speed = 0.05; //Reset speed
 }
 void Solo::score(int player)
 {
@@ -342,7 +350,6 @@ void Solo::replay(sf::RenderWindow &window)
     m_spritePlayer2.setTexture(m_textureNull);
     m_clock.restart();
     afficherScore  = true;
-
 }
 
 Solo::Solo()    //Constructor

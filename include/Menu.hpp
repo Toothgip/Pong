@@ -1,9 +1,9 @@
 #ifndef MENU_H
 #define MENU_H
-#include "..\main.h"
-#include "Textfield.h"
-#include "Versus.h"
-#include "Solo.h"
+#include "..\Main.hpp"
+#include "Textfield.hpp"
+#include "Versus.hpp"
+#include "Solo.hpp"
 
 class Menu
 {

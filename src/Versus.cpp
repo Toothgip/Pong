@@ -1,4 +1,4 @@
-#include "..\include\Versus.h"
+#include "..\include\Versus.hpp "
 
 void Versus::initRectangle(sf::RectangleShape &rectangle, sf::Vector2f position)
 {
@@ -82,7 +82,7 @@ bool Versus::update(sf::RenderWindow &window, sf::Event &event)
 }
 void Versus::draw(sf::RenderWindow &window)
 {
-    if(end == 0)                    // if the game is not finished
+    if(end == 0)                    // If the game is not finished
     {
         window.draw(m_spritePlayer1);
         window.draw(m_spritePlayer2);
@@ -94,13 +94,13 @@ void Versus::draw(sf::RenderWindow &window)
     {
         window.draw(m_spriteWin);
         window.display();
-        sf::sleep(sf::seconds(0.7));
+        sf::sleep(sf::seconds(0.7));  //Delay for see which player win
 
-        end = 2;
+        end = 2;  //Go to replay
     }
     else if (end == 2)                  //Asked of player if he wants replay
     {
-        window.draw(m_spriteReplay);
+        window.draw(m_spriteReplay); //Asked to replay
     }
 
 }
@@ -127,6 +127,7 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
     }
 
     if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x && // Rebound Player 1 curse
+       circle.getPosition().x >= RECTANGLE1X &&
        circle.getPosition().y >= rectangle1.getPosition().y &&
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
       {
@@ -141,6 +142,7 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
       }
 
     if(circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x &&
+       circle.getPosition().x <= RECTANGLE2X &&
        circle.getPosition().y >= rectangle2.getPosition().y &&         //Rebound Player 2 curse
        circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y)
     {
@@ -178,8 +180,7 @@ void Versus::goal(int player)                              // Goal
         m_x = -1* m_speed;
         m_y = -1* m_speed;
     }
-    waitGoal = true;
-
+    waitGoal = true; //Set a sleep time
     m_ball.setPosition(sf::Vector2f(400, 300));  //Replace the ball at the middle
 }
 void Versus::score(int player)
@@ -240,18 +241,17 @@ void Versus::win(int player)
         m_textureWin.loadFromFile("ressource/Player2.png");
     }
     end = 1;
-
 }
 void Versus::replay(sf::RenderWindow &window)
 {
     if(sf::Mouse::getPosition(window).x >= 192 && sf::Mouse::getPosition(window).x <= 350 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
-       sf::Mouse::isButtonPressed(sf::Mouse::Left)) //If yes
+       sf::Mouse::isButtonPressed(sf::Mouse::Left)) //Yes
        {
             end = 0; //The game restart
        }
 
     else if(sf::Mouse::getPosition(window).x >= 395 && sf::Mouse::getPosition(window).x <= 554 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
-       sf::Mouse::isButtonPressed(sf::Mouse::Left)) //if no
+       sf::Mouse::isButtonPressed(sf::Mouse::Left)) //No
        {
             end = 3; //Return to main menu
        }
@@ -261,6 +261,7 @@ void Versus::replay(sf::RenderWindow &window)
     m_spritePlayer1.setTexture(m_textureNull);
     m_spritePlayer2.setTexture(m_textureNull);
 }
+
 Versus::Versus() //Constructor
 {
      //Initialization of curse, score and ball

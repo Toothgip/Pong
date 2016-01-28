@@ -1,4 +1,4 @@
-#include "../include/Menu.h"
+#include "../include/Menu.hpp"
 
 int Menu::update(sf::RenderWindow &window, sf::Event &event)
 {

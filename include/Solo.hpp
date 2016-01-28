@@ -1,6 +1,6 @@
 #ifndef SOLO_H
 #define SOLO_H
-#include "..\main.h"
+#include "..\Main.hpp"
 
 class Solo
 {
@@ -8,7 +8,7 @@ class Solo
         //Method
             Solo(); //Constructor
 
-            //Initialization of Ball =, curse sensibility and the solo mod
+            //Initialization of Ball, curse sensibility and the solo mod
             void initRectangle(sf::RectangleShape &rectangle, sf::Vector2f position);
             void initCircle (sf::CircleShape &circle);
             void setIa(bool pIA);

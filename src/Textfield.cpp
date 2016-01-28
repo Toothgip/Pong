@@ -1,4 +1,4 @@
-#include "../include/Textfield.h"
+#include "../include/Textfield.hpp"
 
 void Textfield::recordingCharacter(sf::Event &event)
 {

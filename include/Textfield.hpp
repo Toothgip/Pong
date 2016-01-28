@@ -1,6 +1,6 @@
 #ifndef TEXTFIELD_H
 #define TEXTFIELD_H
-#include "..\main.h"
+#include "..\Main.hpp"
 
 class Textfield
 {

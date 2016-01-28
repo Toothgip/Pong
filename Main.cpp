@@ -1,5 +1,5 @@
-#include "main.h"
-#include "include\Game.h"
+#include "Main.hpp"
+#include "include\Game.hpp"
 
 
 int main()
