@@ -2,8 +2,6 @@
 #define MENU_H
 #include "..\Main.hpp"
 #include "Textfield.hpp"
-#include "Versus.hpp"
-#include "Solo.hpp"
 
 class Menu
 {
@@ -11,22 +9,29 @@ class Menu
         //Method
         Menu();  //Constructor
 
-        void draw(sf::RenderWindow &window);
+        //Manage event triggered
         int update(sf::RenderWindow &window, sf::Event &event);
 
-        int getSensiP1();
+        //Display all sprites
+        void draw(sf::RenderWindow &window);
 
+        //Return sensibility of players entered by user
+        int getSensiP1();
         int getSensiP2();
 
         virtual ~Menu(); //Destructor
 
-        Textfield textfield;
-        Versus versus;
+
 
     protected:
     private:
+        //Object Textfield
+        Textfield m_textfield;
 
-        int choice = 0, m_sensibiliteP1, m_sensibiliteP2, m_selected;
+        //Store the menu selected, sensibility of players and which sensibility is modified
+        int m_choice = 0, m_sensibiliteP1, m_sensibiliteP2, m_selected;
+
+        //Sprites and Texture of Menu
         sf::Texture m_textureMenu;
         sf::Sprite m_spriteMenu;
 

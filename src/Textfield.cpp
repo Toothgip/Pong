@@ -2,25 +2,25 @@
 
 void Textfield::recordingCharacter(sf::Event &event)
 {
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) && chaineCaractere.getSize() != 0)
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace) && m_chaineCaractere.getSize() != 0)
     {
             m_caractereEntrer = 0;  //Reset the number entered
-            chaineCaractere.erase(chaineCaractere.getSize()- 1, 1); //Delete the number that was entered                        //There are currently no number entered
+            m_chaineCaractere.erase(m_chaineCaractere.getSize()- 1, 1); //Delete the number that was entered                        //There are currently no number entered
 
-            m_text.setString(chaineCaractere);  //Update the text that is draw on the window
+            m_text.setString(m_chaineCaractere);  //Update the text that is draw on the window
     }
 
     if (event.type == sf::Event::TextEntered)   //If some number was entered
     {
         m_caractereEntrer = event.text.unicode; //Store the number entered
 
-        if(m_caractereEntrer >= 49 && m_caractereEntrer <= 57 && chaineCaractere.getSize() < 1) //If it's a number (max 9)
+        if(m_caractereEntrer >= 49 && m_caractereEntrer <= 57 && m_chaineCaractere.getSize() < 1) //If it's a number (max 9)
         {
-            chaineCaractere.insert(0, m_caractereEntrer);   //Insert in the string that will be draw on the window
+            m_chaineCaractere.insert(0, m_caractereEntrer);   //Insert in the string that will be draw on the window
 
             m_sensi = atoi(pt); //Convert the char enter by user in a integer
         }
-        m_text.setString(chaineCaractere); //Update the text that is draw on the window
+        m_text.setString(m_chaineCaractere); //Update the text that is draw on the window
     }
 }
 void Textfield::focus(sf::RenderWindow &window)
@@ -59,9 +59,9 @@ int Textfield::getSensi()
 
 void Textfield::reset()
 {
-    if(chaineCaractere.getSize() != 0)
+    if(m_chaineCaractere.getSize() != 0)
     {
-        chaineCaractere.erase(0, 1);       //Delete text that was entered
+        m_chaineCaractere.erase(0, 1);       //Delete text that was entered
     }
 
     m_text.setString("");       //Reset text that is draw

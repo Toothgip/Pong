@@ -8,7 +8,6 @@ Game::Game() //Constructor
 
 void Game::update(sf::RenderWindow &window, sf::Event &event)
 {
-    //TODO: Faire commentaire Textfield et menu
     switch(m_step)
     {
         case 0:             //Main Menu
