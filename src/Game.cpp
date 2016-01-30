@@ -3,7 +3,7 @@
 Game::Game() //Constructor
 {
     m_step = 0;
-    init = false; //Use for initialize curse ... in some mode or IA
+    init = true; //Use for initialize curse ... in some mode or IA
 }
 
 void Game::update(sf::RenderWindow &window, sf::Event &event)
@@ -12,11 +12,11 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
     {
         case 0:             //Main Menu
         {
-            //TODO: Faire des objets dynamique qui seront supprimé a la fin d'un mod et donc les values sont donc sauvegarder
-            //Reset the mod
+            //Reset state of all the mod
             m_versus.end = 0;
             m_solo.end = 0;
-            init = false;
+
+            init = true;
 
             m_step = m_menu.update(window, event);
 
@@ -27,10 +27,10 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
         }
         case 1:             //Solo survival
         {
-            if(init == false)
+            if(init == true)
             {
                 m_solo.setIa(false); //Init class Solo without IA
-                init = true;
+                init = false;
             }
 
             if(m_solo.update(event, window)) //Return to the main menu
@@ -39,7 +39,7 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
         }
         case 2:             //Player vs AI
         {
-            if(init == false)
+            if(init == true)
             {
                 m_solo.setIa(true); //Init class Solo with IA
             }
@@ -47,10 +47,10 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
             if(m_solo.update(event, window)) //If update return true: return to main menu
                 m_step = 0;
 
-            if(init == false)  //Add a temporization at the beginning of the game
+            if(init == true)  //Add a delay at the beginning of the game
             {
                 sf::sleep(sf::milliseconds(100));
-                init = true;
+                init = false;
             }
             break;
         }
@@ -59,18 +59,17 @@ void Game::update(sf::RenderWindow &window, sf::Event &event)
             if(m_versus.update(window, event)) //If update return true: return to main menu
                 m_step = 0;
 
-            if(init == false)
+            if(init == true)
             {
                 sf::sleep(sf::milliseconds(100));
-                init = true;
+                init = false;
             }
             break;
         }
     }
-
     if(m_solo.waitGoal || m_versus.waitGoal) //If there is a goal in solo
     {
-        sf::sleep(sf::milliseconds(500)); //Temporisation de 500 ms
+        sf::sleep(sf::milliseconds(500)); //delay of 500 ms when goal
         m_solo.waitGoal = false;
         m_versus.waitGoal = false;
     }
@@ -85,7 +84,7 @@ void Game::draw(sf::RenderWindow &window)
             m_menu.draw(window);
             break;
         }
-        case 1:             //Solo survie
+        case 1:             //Survival mod
         {
             m_solo.draw(window);
             break;

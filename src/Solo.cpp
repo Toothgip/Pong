@@ -152,6 +152,8 @@ void Solo::goal(int player)                              // Goal
         m_x = -1* m_speed;
         m_y = -1* m_speed;
     }
+    m_y = -1* m_y //Alternates direction of the ball in vertical axis
+
     waitGoal = true;    //Set a sleep time
     m_ball.setPosition(sf::Vector2f(400, 300)); //Replace the ball at the middle
 }
@@ -270,7 +272,6 @@ bool Solo::update(sf::Event &event, sf::RenderWindow &window)
         return true;
     }
 
-
     return false;
 }
 void Solo::draw(sf::RenderWindow &window)
@@ -340,7 +341,6 @@ void Solo::replay(sf::RenderWindow &window)
        sf::Mouse::isButtonPressed(sf::Mouse::Left)) //No
     {
         end = 2;        //Return to main menu reseting the solo mod
-        m_ia = false;
     }
 
     //Reseting all value
