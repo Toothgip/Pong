@@ -152,7 +152,7 @@ void Solo::goal(int player)                              // Goal
         m_x = -1* m_speed;
         m_y = -1* m_speed;
     }
-    m_y = -1* m_y //Alternates direction of the ball in vertical axis
+    m_y = -1* m_y; //Alternates direction of the ball in vertical axis
 
     waitGoal = true;    //Set a sleep time
     m_ball.setPosition(sf::Vector2f(400, 300)); //Replace the ball at the middle
