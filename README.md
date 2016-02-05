@@ -2,7 +2,8 @@ Pong
 ====
 Inspired by the popular arcade game.
 
-Created in 2014, recently i optimized the code (Dec 2015 - Jan 2016)
+Created in 2014, recently i optimized the code (Dec 2015 - Jan 2016) actually i have idea for new
+functionnality to add 
 
 In this game you can play different modes: 
 - A survival mode: In this mode you play alone, you have to survive as long as possible in front of you a wall. The time that you survived is displayed during the game
