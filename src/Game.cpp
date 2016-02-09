@@ -100,15 +100,20 @@ void Game::draw(sf::RenderWindow &window)
             break;
         }
     }
-
 }
 
 Game::~Game()   //Destructor
 {
 
 }
+    //TODO: Add branches in github with codeblocks project and just executable games for play
+
+    //OPTIMIZE
+    //TODO: Eviter les test inutiles var inutiles
+    //TODO: Eviter includes inutiles
+
+    //NEW FUNCTIONNALITY
     //TODO:MODE 3 jours avec pong en triange
     //TODO: Menu en anglais
     //TODO: Choisir langue au demarrage du jeu
     //TODO: Skin de rectangle et de balle
-    //TODO: Add branches in github with codeblocks project and just executable games for play
