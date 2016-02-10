@@ -34,9 +34,8 @@ class Textfield
         //String store number entered by the user
         sf::String m_chaineCaractere;
 
-
         //char store the current digit enter by user, pointer is used to convert the char to int
-        char m_caractereEntrer, *pt;
+        char m_caractereEntrer;
 
         //Texture and sprite of Textfield
         sf::Texture m_texture, m_textureFocus;

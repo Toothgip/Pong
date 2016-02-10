@@ -40,16 +40,16 @@ class Solo
             //Manage the state of the game
             int end;
 
-            //Bool that manage sleep time after a goal and the drawing in solo mod at the end of the game
-            bool waitGoal, afficherScore;
-
-            //Flow for survival mod
-            std::ostringstream stream;
+            //Bool that manage sleep time after a goal
+            bool waitGoal;
 
     protected:
     private:
-        //Manage if AI is enabled
-        bool m_ia;
+        //Manage if AI is enabled and the drawing in solo mod at the end of the game
+        bool m_ia, m_afficherScore;
+
+        //Flow for survival mod
+        std::ostringstream m_stream;
 
         /* Store the score of players, AI, the sensibility of curse
         and  manage the increasing of speed depending of the time  */
@@ -69,7 +69,7 @@ class Solo
         sf::Clock m_clock;
 
         //Texture and sprite of all elements
-        sf::Texture m_textureReplay, m_textureWin, m_texturePlayer1, m_textureNull, m_texturePlayer2;
+        sf::Texture m_textureReplay, m_textureWin, m_texturePlayer1, m_texturePlayer2, m_textureNull;
         sf::Sprite m_spriteReplay, m_spritePlayer1, m_spritePlayer2, m_spriteWin;
 
         //Text which draw the time in survival mod and the player or AI who wins the game

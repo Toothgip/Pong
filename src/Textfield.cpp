@@ -10,33 +10,33 @@ void Textfield::recordingCharacter(sf::Event &event)
             m_text.setString(m_chaineCaractere);  //Update the text that is draw on the window
     }
 
-    if (event.type == sf::Event::TextEntered)   //If some number was entered
+    if (event.type == sf::Event::TextEntered && // IF text is entered
+        m_caractereEntrer >= 49 && m_caractereEntrer <= 57 &&           //If the text is number
+        m_chaineCaractere.getSize() < 1 )   //If the Textfield is not full
     {
         m_caractereEntrer = event.text.unicode; //Store the number entered
 
-        if(m_caractereEntrer >= 49 && m_caractereEntrer <= 57 && m_chaineCaractere.getSize() < 1) //If it's a number (max 9)
-        {
-            m_chaineCaractere.insert(0, m_caractereEntrer);   //Insert in the string that will be draw on the window
+        m_chaineCaractere.insert(0, m_caractereEntrer);   //Insert in the string that will be
+                                                          //draw on the window
+        m_sensi = atoi(&m_caractereEntrer); //Convert the char enter by user in a integer
 
-            m_sensi = atoi(pt); //Convert the char enter by user in a integer
-        }
         m_text.setString(m_chaineCaractere); //Update the text that is draw on the window
     }
 }
 void Textfield::focus(sf::RenderWindow &window)
 {
     if(sf::Mouse::getPosition(window).x >= 338 && sf::Mouse::getPosition(window).x <= 456 &&
-       sf::Mouse::getPosition(window).y >= 240 && sf::Mouse::getPosition(window).y <= 305 &&  //Textfield focused
+       sf::Mouse::getPosition(window).y >= 240 && sf::Mouse::getPosition(window).y <= 305 && //Textfield focus
         sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {
-            m_sprite.setTexture(m_textureFocus);
-            m_focus = 1;
-        }
+    {
+        m_sprite.setTexture(m_textureFocus);
+        m_focus = 1;
+    }
     else if(sf::Mouse::isButtonPressed(sf::Mouse::Left))    //If user click Outside the Textfield
-        {
-            m_sprite.setTexture(m_texture);
-            m_focus = 0;
-        }
+    {
+        m_sprite.setTexture(m_texture);
+        m_focus = 0;
+    }
 }
 void Textfield::update(sf::RenderWindow &window, sf::Event &event)
 {
@@ -63,7 +63,6 @@ void Textfield::reset()
     {
         m_chaineCaractere.erase(0, 1);       //Delete text that was entered
     }
-
     m_text.setString("");       //Reset text that is draw
 }
 
@@ -83,7 +82,6 @@ Textfield::Textfield()  //Constructor
 
     //Variable
     m_caractereEntrer = 0;
-    pt = &m_caractereEntrer;
 }
 
 Textfield::~Textfield() //Destructor

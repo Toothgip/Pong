@@ -31,7 +31,7 @@ class Versus
         virtual ~Versus(); //Destructor
 
         //Variable
-            //Bool that manage sleep time after a goal and the drawing in solo mod at the end of the game
+            //Bool that manage sleep time after a goal
             bool waitGoal;
 
             //Manage the state of the game
@@ -50,7 +50,7 @@ class Versus
         float m_x, m_y, m_speed;
 
         //Texture and sprite of all elements
-        sf::Sprite m_spriteReplay, m_spritePlayer1, m_spritePlayer2, m_spriteWin;
+        sf::Sprite m_spritePlayer1, m_spritePlayer2, m_spriteWin, m_spriteReplay;
         sf::Texture m_texturePlayer1, m_textureNull, m_texturePlayer2, m_textureWin, m_textureReplay;
 };
 #endif // Versus_H

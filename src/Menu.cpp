@@ -11,7 +11,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
 
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
-                m_choice = 1;
+                m_choice = 1; //Solo Menu
             }
         }
         else if(sf::Mouse::getPosition(window).x >= 265 && sf::Mouse::getPosition(window).x <= 485 &&
@@ -21,7 +21,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
 
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) //If left click return to Game
             {
-                return 3;
+                return 3;   //Play in versus
             }
         }
         else if(sf::Mouse::getPosition(window).x >= 202 && sf::Mouse::getPosition(window).x <= 558 &&
@@ -29,7 +29,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         {
             m_textureMenu.loadFromFile("ressource/Menu/Menu b3 focus.png"); //Tool button with shape effect
 
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) //If left click switch to submenu of tool
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) //If left click switch to Tool Menu
             {
                 m_choice = 4;
             }
@@ -98,8 +98,7 @@ int Menu::update(sf::RenderWindow &window, sf::Event &event)
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))    //Return to main menu
             m_choice = 0;
     }
-    if(m_choice == 4  && m_selected !=0 ) // Cursor Sensibility
-
+    if(m_selected != 0 ) // Cursor Sensibility
     {
         m_textfield.update(window, event);
 
@@ -131,15 +130,15 @@ void Menu::draw(sf::RenderWindow &window)
     {
         window.draw(m_spriteMenu);  //Draw  menu
     }
-    if (m_choice == 1 )     //Solo
+    if (m_choice == 1 )     //Solo Menu
     {
         window.draw(m_spriteMenu);
     }
-    if(m_choice == 4 && m_selected == 0) //Tool
+    if(m_selected == 0) //Tool Menu
     {
         window.draw(m_spriteMenu);
     }
-    if(m_choice == 4 && m_selected != 0)  //Changing sensibility of a player
+    if(m_selected != 0)  //Changing sensibility of a player
     {
        m_textfield.draw(window);
     }
@@ -153,7 +152,6 @@ int Menu::getSensiP1()
 int Menu::getSensiP2()
 {
     return m_sensibiliteP2;
-
 }
 
 Menu::Menu() //Constructor
@@ -161,7 +159,6 @@ Menu::Menu() //Constructor
     //Sprite of menu
     m_textureMenu.loadFromFile("ressource/Menu/Menu.png");  //Basic menu without effect
     m_spriteMenu.setTexture(m_textureMenu);
-
 
     //Variable indicate which menu is selected
     m_choice = 0;
@@ -172,7 +169,6 @@ Menu::Menu() //Constructor
 
     //Var indicate which sensibility player is currently modified
     m_selected = 0;
-
 }
 Menu::~Menu()
 {

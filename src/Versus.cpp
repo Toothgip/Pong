@@ -110,38 +110,35 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
     {
         m_y = -1*m_y;
     }
-
-    if(circle.getPosition().y <= 0 && m_y <= 0)      //Rebound on the top of the window
+    else if(circle.getPosition().y <= 0 && m_y <= 0)      //Rebound on the top of the window
     {
         m_y = -1*m_y;
     }
 
-    if(circle.getPosition().x >= WINDOW_X - 20) // Rebound on the right side on the window: Goal for player 1
+    if(circle.getPosition().x >= WINDOW_X - 20) // Rebound on the right side on the window:
     {
-        goal(1);
+        goal(1);        //Goal for player 1
     }
-
-    if(circle.getPosition().x <= RECTANGLE1X - 5 ) // Rebound on the left side on the window: Goal for player 2
+    else if(circle.getPosition().x <= RECTANGLE1X - 5 ) // Rebound on the left side on the window:
     {
-        goal(2);
+        goal(2);        //Goal for player 2
     }
 
     if(circle.getPosition().x <= RECTANGLE1X + rectangle1.getSize().x && // Rebound Player 1 curse
        circle.getPosition().x >= RECTANGLE1X &&
        circle.getPosition().y >= rectangle1.getPosition().y &&
        circle.getPosition().y <= rectangle1.getPosition().y + rectangle1.getSize().y)
-      {
+    {
         if(m_x <= 0)
         {
             if(m_speed < 0.5)  //If the limit of the speed is not reach
             {
                 m_speed = 1.1*m_speed;  //Increasing speed
             }
-            m_x = m_speed;
         }
-      }
-
-    if(circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x &&
+        m_x = m_speed;
+    }
+    else if(circle.getPosition().x >= RECTANGLE2X - rectangle2.getSize().x &&
        circle.getPosition().x <= RECTANGLE2X &&
        circle.getPosition().y >= rectangle2.getPosition().y &&         //Rebound Player 2 curse
        circle.getPosition().y <= rectangle2.getPosition().y + rectangle2.getSize().y)
@@ -152,10 +149,9 @@ void Versus::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  
             {
                 m_speed = 1.1*m_speed;  //Increasing speed
             }
-            m_x = -1 * m_speed;
         }
+        m_x = -1 * m_speed;
     }
-
     circle.setPosition(circle.getPosition().x + m_x, circle.getPosition().y + m_y); //Moving of the ball
 }
 void Versus::goal(int player)                              // Goal
@@ -180,6 +176,8 @@ void Versus::goal(int player)                              // Goal
         m_x = -1* m_speed;
         m_y = -1* m_speed;
     }
+    m_y = -1* m_y; //Alternates direction of the ball in vertical axis
+
     waitGoal = true; //Set a sleep time
     m_ball.setPosition(sf::Vector2f(400, 300));  //Replace the ball at the middle
 }

@@ -1,7 +1,6 @@
 #ifndef MENU_H
 #define MENU_H
-#include "..\Main.hpp"
-#include "Textfield.hpp"
+#include "Textfield.hpp" //Including Main.hpp
 
 class Menu
 {
@@ -29,7 +28,7 @@ class Menu
         Textfield m_textfield;
 
         //Store the menu selected, sensibility of players and which sensibility is modified
-        int m_choice = 0, m_sensibiliteP1, m_sensibiliteP2, m_selected;
+        int m_choice, m_sensibiliteP1, m_sensibiliteP2, m_selected;
 
         //Sprites and Texture of Menu
         sf::Texture m_textureMenu;

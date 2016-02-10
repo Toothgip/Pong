@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <sstream>
-#include <string>
 using namespace std;
 
 //Constant

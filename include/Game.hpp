@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
-#include "..\Main.hpp"
-#include "Menu.hpp"
+
+#include "Menu.hpp" //Including Main.hpp
 #include "Versus.hpp"
 #include "Solo.hpp"
 
@@ -28,7 +28,7 @@ class Game
 
         //Variable
         int m_step;
-        bool init;
+        bool m_init;
 };
 
 #endif // GAME_H

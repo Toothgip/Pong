@@ -52,14 +52,15 @@ void Solo::IA()
             moveRectangle(m_rectangle2, 2);     //Move down
         }
     }
-    if(m_ball.getPosition().x > WINDOW_X/2- 50 && m_x >= 0 ) //If the ball goes to IA
-    {
+    else if(m_ball.getPosition().x > WINDOW_X/2- 50 && m_x >= 0 ) //If the ball goes to IA and
+    {                                                             //the ball crossed middle of window
+
         if(m_ball.getPosition().y <= m_rectangle2.getPosition().y + 20 ) //If ball move up
         {
             moveRectangle(m_rectangle2, 1);              //Curse move up
         }
-        else if(m_ball.getPosition().y >=  m_rectangle2.getPosition().y + m_rectangle2.getSize().y - 20) //If ball move down
-        {
+        else if(m_ball.getPosition().y >=  m_rectangle2.getPosition().y + m_rectangle2.getSize().y - 20)
+        {                                                                                  //If ball move down
             moveRectangle(m_rectangle2, 2);                          //Curse move down
         }
     }
@@ -71,7 +72,7 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
     {
         m_y = -1*m_y;
     }
-    if(circle.getPosition().y <= 0 && m_y <= 0)      //Rebound on the top of the window
+    else if(circle.getPosition().y <= 0 && m_y <= 0)      //Rebound on the top of the window
     {
         m_y = -1*m_y;
     }
@@ -87,7 +88,7 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
             m_x = -1*m_x;
         }
     }
-    if(circle.getPosition().x <= RECTANGLE1X - 5 ) // Rebound on the left side of the window
+    else if(circle.getPosition().x <= RECTANGLE1X - 5 ) // Rebound on the left side of the window
     {
         if(m_ia == true)                 //If IA mod: goal for IA
         {
@@ -110,10 +111,10 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
             {
                 m_speed = 1.1*m_speed; //Increasing speed
             }
-            m_x = m_speed;
         }
+        m_x = m_speed;
       }
-    if(m_ia== 1 &&   //Rebound curse 2 if IA mod
+    else if(m_ia == 1 &&   //Rebound curse 2 if IA mod
        circle.getPosition().x >= RECTANGLE2X - m_rectangle2.getSize().x &&
        circle.getPosition().x <= RECTANGLE2X &&
        circle.getPosition().y >= m_rectangle2.getPosition().y &&
@@ -125,10 +126,9 @@ void Solo::moveBall(sf::CircleShape &circle, sf::RectangleShape &rectangle1,  sf
             {
                 m_speed = 1.1*m_speed;  //Increasing speed
             }
-            m_x = -1 * m_speed;
         }
+        m_x = -1 * m_speed;
     }
-
     circle.setPosition(circle.getPosition().x + m_x, circle.getPosition().y + m_y);  //Moving of the ball
 }
 void Solo::goal(int player)                              // Goal
@@ -143,7 +143,7 @@ void Solo::goal(int player)                              // Goal
         m_x = m_speed;
         m_y = m_speed;
     }
-    if (player == 2)        //If goal for AI
+    else       //If goal for AI
     {
         m_goalPlayer2 = m_goalPlayer2 +1;
         score(2);
@@ -210,13 +210,13 @@ void Solo::survie()
 
     if((float)m_time.asMilliseconds()/1000 >= 10)
     {
-        stream.precision(4);              //Increase significant digit for have 2 decimal
+        m_stream.precision(4);              //Increase significant digit for have 2 decimal
     }
-    stream << (float)m_time.asMilliseconds()/1000;   //Store the time in a flow
+    m_stream << (float)m_time.asMilliseconds()/1000;   //Store the time in a flow
 
-    m_textTime.setString(stream.str());    //Set the time in a string
+    m_textTime.setString(m_stream.str());    //Set the time in a string
 
-    stream.str(""); //Clear the flow
+    m_stream.str(""); //Clear the flow
 
     if(m_timeSpeed < (int)m_time.asSeconds() && m_speed < 0.5)
     {
@@ -263,10 +263,10 @@ bool Solo::update(sf::Event &event, sf::RenderWindow &window)
             IA();
         }
     }
-    if(end == 1)        // If the  game is finished asked if player want to replay
+    else if(end == 1)        // If the  game is finished asked if player want to replay
         replay(window);
 
-    if(end == 2)        //If the player don't want to replay
+    else if(end == 2)        //If the player don't want to replay
     {
         sf::sleep(sf::milliseconds(150));
         return true;
@@ -285,16 +285,16 @@ void Solo::draw(sf::RenderWindow &window)
         {
             window.draw(m_textTime);
         }
-        else                        //If versus mod
+        else                        //If AI mod
         {
             window.draw(m_spritePlayer1);
             window.draw(m_spritePlayer2);
             window.draw(m_rectangle2);
         }
     }
-    if (end == 1)                   // If the game is finished
+    else if (end == 1)                   // If the game is finished
     {
-        if(afficherScore == true && m_ia == false)   //Survival mod
+        if(m_afficherScore == true && m_ia == false)   //Survival mod
         {
             m_textTime.setPosition(540, 300); //Move the text at the middle of the window
 
@@ -304,13 +304,16 @@ void Solo::draw(sf::RenderWindow &window)
 
             window.display();
 
-            sf::sleep(sf::seconds(1)); //Delay for see your score
-            afficherScore = false;
-            m_textTime.setPosition(300, 70); //Replace the time at the top: his origin position
-        }
 
-        if(m_ia == false)       //IA mod
+            m_afficherScore = false;
+            m_textTime.setPosition(300, 70); //Replace the time at the top: his origin position
+            sf::sleep(sf::seconds(1)); //Delay for see your score
+        }
+        else if(m_ia == true)       //IA mod
+        {
             window.draw(m_spriteWin); //Draw who wins
+             sf::sleep(sf::seconds(1)); //Delay for see your who wins
+        }
 
         window.draw(m_spriteReplay);        //Picture for replay
     }
@@ -330,17 +333,19 @@ void Solo::win(int player)
 }
 void Solo::replay(sf::RenderWindow &window)
 {
-
-    if(sf::Mouse::getPosition(window).x >= 192 && sf::Mouse::getPosition(window).x <= 350 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
+    if(sf::Mouse::getPosition(window).x >= 192 && sf::Mouse::getPosition(window).x <= 350 &&
+       sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
     sf::Mouse::isButtonPressed(sf::Mouse::Left)) //Yes
     {
         end = 0; //The game restart
+        m_afficherScore  = true;
     }
-
-    if(sf::Mouse::getPosition(window).x >= 395 && sf::Mouse::getPosition(window).x <= 554 && sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
+    if(sf::Mouse::getPosition(window).x >= 395 && sf::Mouse::getPosition(window).x <= 554 &&
+       sf::Mouse::getPosition(window).y >= 329 && sf::Mouse::getPosition(window).y <= 418 &&
        sf::Mouse::isButtonPressed(sf::Mouse::Left)) //No
     {
         end = 2;        //Return to main menu reseting the solo mod
+        m_afficherScore  = true;
     }
 
     //Reseting all value
@@ -349,7 +354,7 @@ void Solo::replay(sf::RenderWindow &window)
     m_spritePlayer1.setTexture(m_textureNull);
     m_spritePlayer2.setTexture(m_textureNull);
     m_clock.restart();
-    afficherScore  = true;
+
 }
 
 Solo::Solo()    //Constructor
@@ -362,7 +367,7 @@ Solo::Solo()    //Constructor
     waitGoal = false;
 
     //Variable manage the drawing in solo mod at the end of the game
-    afficherScore = true;
+    m_afficherScore = true;
 
     //Manage the state of the game
     end = 0;
@@ -404,7 +409,7 @@ Solo::Solo()    //Constructor
 
     m_clock.restart();  //Start timer for solo mod
     m_timeSpeed = 0; //Initialize variable wherein stored seconds wherein the speed increase in survival mod
-    stream.precision(3);        //Number of significant digit
+    m_stream.precision(3);        //Number of significant digit
 }
 
 Solo::~Solo()
