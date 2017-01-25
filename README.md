@@ -13,3 +13,5 @@ In this game you can play different modes:
 You can change the sensibility of the human players
 
 This game is written in C++ with the SFML library : https://github.com/SFML/SFML
+
+If you want to run the game lanch the Pong.exe in the root directory

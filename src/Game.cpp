@@ -114,10 +114,6 @@ Game::~Game()   //Destructor
 }
     //TODO: Add branches in github with codeblocks project and just executable games for play
 
-    //TODO: OPTIMIZE
-    //TODO: Eviter les test inutiles var inutiles
-    //TODO: Eviter includes inutiles
-
     //TODO: NEW FUNCTIONNALITY
     //TODO: MODE 3 jours avec pong en triange
     //TODO: Menu en anglais
